@@ -15,7 +15,9 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-    origin: "http://localhost:5173", // your frontend (Vite)
+    origin:[ "http://localhost:5173",
+    "https://expense-tracker-mern-zeta-eight.vercel.app", // your frontend (Vite)
+    ],
     credentials: true
 }));
 
