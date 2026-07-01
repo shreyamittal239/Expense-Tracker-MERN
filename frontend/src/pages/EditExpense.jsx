@@ -57,7 +57,7 @@ const EditExpense = () => {
 
     return (
 
-        <DashboardLayout>
+        <DashBoardLayout>
 
             <h1 className="text-3xl font-bold mb-6">
                 Edit Expense
@@ -129,7 +129,7 @@ const EditExpense = () => {
 
             </form>
 
-        </DashboardLayout>
+        </DashBoardLayout>
 
     );
 

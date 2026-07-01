@@ -1,5 +1,5 @@
 import React from 'react'
-import DashboardLayout from '../layouts/DashBoardLayout'
+import DashBoardLayout from '../layouts/DashBoardLayout'
 import { useContext } from 'react';
 import AuthContext from '../context/AuthProvider';
 import { useEffect, useState } from "react";
@@ -43,7 +43,7 @@ const Dashboard = () => {
     } , []);
 
   return (
-    <DashboardLayout>
+    <DashBoardLayout>
         
         <div className="p-6">
       <div>
@@ -145,7 +145,7 @@ const Dashboard = () => {
 
 </div>
        
- </DashboardLayout>
+ </DashBoardLayout>
   )
 }
 

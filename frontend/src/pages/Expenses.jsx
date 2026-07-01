@@ -72,7 +72,7 @@ const Expenses = () => {
 
     return (
 
-        <DashboardLayout>
+        <DashBoardLayout>
 
             {/* Header */}
 
@@ -262,7 +262,7 @@ const Expenses = () => {
 
             )}
 
-        </DashboardLayout>
+        </DashBoardLayout>
 
     );
 
