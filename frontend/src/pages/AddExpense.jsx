@@ -1,5 +1,5 @@
 import { useState } from "react";
-import DashboardLayout from "../layouts/DashboardLayout";
+import DashBoardLayout from "../layouts/DashBoardLayout";
 import api from "../services/api";
 import { useNavigate } from "react-router-dom";
 import {

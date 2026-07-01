@@ -6,7 +6,7 @@ import {
     FaPlus
 } from "react-icons/fa";
 
-import DashboardLayout from "../layouts/DashboardLayout";
+import DashBoardLayout from "../layouts/DashBoardLayout";
 import api from "../services/api";
 
 const categoryColors = {
