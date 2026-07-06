@@ -25,11 +25,39 @@ const SplitExpense = () => {
    setParticipants(updatedParticipants);
  }
 
+ const handleSubmit = async (e) => {
+
+    e.preventDefault();
+
+     const filteredParticipants = participants.filter(
+        (participant) => participant.trim() !== ""
+    );
+
+    try {
+
+        await api.post("/splitExpense", {
+            title,
+            totalAmount,
+            participants,
+        });
+
+        navigate("/dashboard");
+
+    } catch (error) {
+
+        console.log(error.response?.data);
+
+    }
+
+};
+
 
   return (
     <DashboardLayout>
+
+      <form onSubmit={handleSubmit}>
           <div className="min-h-screen bg-slate-100">
-            
+      
                
                <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-lg p-8">
 
@@ -155,9 +183,12 @@ const SplitExpense = () => {
 </button>
 
 
+
     </div>
 
     </div>
+
+    </form>
     </DashboardLayout>
   );
   };

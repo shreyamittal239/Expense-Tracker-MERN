@@ -30,7 +30,7 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/expenses", expenseRoutes);
 app.use("/api/dashboard", dashboardRoutes);
-app.use("/api/split-expenses", splitExpenseRoutes);
+app.use("/api/splitExpenses", splitExpenseRoutes);
 
 
 module.exports = app;
