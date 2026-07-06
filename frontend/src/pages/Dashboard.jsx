@@ -5,6 +5,7 @@ import AuthContext from '../context/AuthProvider';
 import { useEffect, useState } from "react";
 import api from "../services/api";
 import { useNavigate } from "react-router-dom";
+import ExpensePieChart from '../components/ExpensePieChart';
 import {
     FaWallet,
     FaReceipt,
@@ -80,6 +81,14 @@ const Dashboard = () => {
         icon={<FaTags />}
         color="text-purple-500"
     />
+
+    {dashboardData?.categoryWiseExpense?.length > 0 && (
+
+    <ExpensePieChart
+        data={dashboardData.categoryWiseExpense}
+    />
+
+)}
 
 </div>
              
