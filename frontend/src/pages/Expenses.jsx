@@ -8,7 +8,7 @@ import {
 
 import DashBoardLayout from "../layouts/DashBoardLayout";
 import api from "../services/api";
-import expense from "../../../backend/src/models/expense";
+
 
 const categoryColors = {
     Food: "bg-green-100 text-green-700",
@@ -74,7 +74,7 @@ const Expenses = () => {
 
     const filteredExpenses = expenses.filter((expense) =>
         expense.title 
-         .toLowercase()
+         ?.toLowerCase()
          .includes(search.toLowerCase())
     )
 
