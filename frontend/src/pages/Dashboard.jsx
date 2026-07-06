@@ -104,7 +104,7 @@ const Dashboard = () => {
 
                 {/* Pie Chart */}
 
-               {/* {dashboardData?.categoryWiseExpense?.length > 0 && (
+                {dashboardData?.categoryWiseExpense?.length > 0 && (
 
                     <div className="mt-8">
 
@@ -114,7 +114,7 @@ const Dashboard = () => {
 
                     </div>
 
-                )} */}
+                )} 
 
                 {/* Recent Expenses */}
 
