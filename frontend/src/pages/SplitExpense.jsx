@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 
 const SplitExpense = () => {
+  const navigate = useNavigate();
 
   const [title , setTitle] = useState("");
   const [totalAmount, setTotalAmount] = useState("");
@@ -30,23 +31,25 @@ const SplitExpense = () => {
  const handleSubmit = async (e) => {
 
     e.preventDefault();
+    console.log("button clicked");
 
      const filteredParticipants = participants.filter(
         (participant) => participant.trim() !== ""
     );
 
     try {
+       console.log({
+    title,
+    totalAmount,
+    filteredParticipants,
+});
 
         await api.post("/splitExpenses", {
             title,
             totalAmount,
-            participants:filterParticipants,
+            participants:filteredParticipants,
         });
-        console.log({
-    title,
-    totalAmount,
-    participants,
-});
+       
 
         navigate("/dashboard");
 
