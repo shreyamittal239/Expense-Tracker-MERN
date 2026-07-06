@@ -9,7 +9,8 @@ import ExpensePieChart from '../components/ExpensePieChart';
 import {
     FaWallet,
     FaReceipt,
-    FaTags
+    FaTags,
+    FaPlus
 } from "react-icons/fa";
 import DashboardCard from "../components/DashboardCard";
 
@@ -103,7 +104,7 @@ const Dashboard = () => {
 
                 {/* Pie Chart */}
 
-                {dashboardData?.categoryWiseExpense?.length > 0 && (
+               {/* {dashboardData?.categoryWiseExpense?.length > 0 && (
 
                     <div className="mt-8">
 
@@ -113,7 +114,7 @@ const Dashboard = () => {
 
                     </div>
 
-                )}
+                )} */}
 
                 {/* Recent Expenses */}
 
