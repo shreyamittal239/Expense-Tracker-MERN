@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import DashboardLayout from '../layouts/DashBoardLayout'
-
+import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 
 const SplitExpense = () => {
