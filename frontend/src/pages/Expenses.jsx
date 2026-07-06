@@ -72,7 +72,7 @@ const Expenses = () => {
 
     };
 
-    const filteredExpenses = expenses.filter((espense) =>
+    const filteredExpenses = expenses.filter((expense) =>
         expense.title 
          .toLowercase()
          .includes(search.toLowerCase())
