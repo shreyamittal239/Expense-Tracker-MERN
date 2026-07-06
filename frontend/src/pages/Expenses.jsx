@@ -27,6 +27,7 @@ const Expenses = () => {
 
     const [expenses, setExpenses] = useState([]);
     const [search , setSearch] = useState("");
+    const [category , setCategory] = useState("All");
 
     const fetchExpenses = async () => {
 
@@ -72,11 +73,19 @@ const Expenses = () => {
 
     };
 
-    const filteredExpenses = expenses.filter((expense) =>
+    const filteredExpenses = expenses.filter((expense) => {
+
+        const matchedSearch =
         expense.title 
          ?.toLowerCase()
-         .includes(search.toLowerCase())
-    )
+         .includes(search.toLowerCase());
+
+         const matchedCategory =
+         category === "All" || 
+         expense.category === category;
+
+         return matchedSearch && matchedCategory;
+ } )
 
     return (
 
@@ -121,6 +130,8 @@ const Expenses = () => {
                 />
 
                 <select
+                value={category}
+                onChange={(e)=> setCategory(e.target.value)}
                     className="border rounded-xl px-4 py-3 focus:ring-2 focus:ring-green-500 outline-none"
                 >
                     <option>All Categories</option>
