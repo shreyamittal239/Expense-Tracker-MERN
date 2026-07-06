@@ -8,6 +8,7 @@ import {
 
 import DashBoardLayout from "../layouts/DashBoardLayout";
 import api from "../services/api";
+import expense from "../../../backend/src/models/expense";
 
 const categoryColors = {
     Food: "bg-green-100 text-green-700",
@@ -25,6 +26,7 @@ const Expenses = () => {
     const navigate = useNavigate();
 
     const [expenses, setExpenses] = useState([]);
+    const [search , setSearch] = useState("");
 
     const fetchExpenses = async () => {
 
@@ -70,6 +72,12 @@ const Expenses = () => {
 
     };
 
+    const filteredExpenses = expenses.filter((espense) =>
+        expense.title 
+         .toLowercase()
+         .includes(search.toLowerCase())
+    )
+
     return (
 
         <DashBoardLayout>
@@ -107,6 +115,8 @@ const Expenses = () => {
                 <input
                     type="text"
                     placeholder="🔍 Search Expenses..."
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
                     className="flex-1 border rounded-xl px-4 py-3 focus:ring-2 focus:ring-green-500 outline-none"
                 />
 
@@ -128,7 +138,7 @@ const Expenses = () => {
 
             {/* Empty State */}
 
-            {expenses.length === 0 ? (
+            {filteredExpenses.length === 0 ? (
 
                 <div className="bg-white rounded-2xl shadow-lg py-20 text-center">
 
@@ -189,7 +199,7 @@ const Expenses = () => {
 
                         <tbody>
 
-                            {expenses.map((expense) => (
+                            {filteredExpenses.map((expense) => (
 
                                 <tr
                                     key={expense._id}
