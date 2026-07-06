@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import DashboardLayout from '../layouts/DashBoardLayout'
-import { Navigate } from 'react-router-dom';
+
+import api from '../services/api';
 
 const SplitExpense = () => {
 
@@ -39,7 +40,7 @@ const SplitExpense = () => {
         await api.post("/splitExpense", {
             title,
             totalAmount,
-            participants,
+            participants:filterParticipants,
         });
 
         navigate("/dashboard");
