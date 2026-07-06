@@ -37,11 +37,16 @@ const SplitExpense = () => {
 
     try {
 
-        await api.post("/splitExpense", {
+        await api.post("/splitExpenses", {
             title,
             totalAmount,
             participants:filterParticipants,
         });
+        console.log({
+    title,
+    totalAmount,
+    participants,
+});
 
         navigate("/dashboard");
 
