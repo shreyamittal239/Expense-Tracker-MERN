@@ -56,6 +56,12 @@ const handleLogout = async () => {
                     >
                         Add Expense
                     </Link>
+                    <Link
+                        to="/split-expense"
+                        className="hover:text-green-400"
+                    >
+                        Split Expense
+                    </Link>
 
                 </div>
 
