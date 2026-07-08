@@ -4,7 +4,7 @@ import { FaTrash , FaEdit } from 'react-icons/fa';
 import api from '../services/api';
 import { useNavigate } from "react-router-dom";
 const SplitExpense = () => {
-  const navigate = useNavigate();
+const navigate = useNavigate();
 
   const [title , setTitle] = useState("");
   const [totalAmount, setTotalAmount] = useState("");
