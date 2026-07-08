@@ -1,4 +1,4 @@
-const splitExpense = require("../models/splitExpense");
+const SplitExpense = require("../models/splitExpense");
 
 const createSplitExpense = async ( req,res)=>{
      const { title, totalAmount, participants } = req.body;

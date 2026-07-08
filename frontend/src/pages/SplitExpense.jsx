@@ -1,10 +1,10 @@
 import React, { useEffect,useRef, useState } from 'react'
 import DashboardLayout from '../layouts/DashBoardLayout'
-import { FaTrash } from 'react-icons/fa';
+import { FaTrash , FaEdit } from 'react-icons/fa';
 import api from '../services/api';
-
+import { useNavigate } from "react-router-dom";
 const SplitExpense = () => {
-  
+  const navigate = useNavigate();
 
   const [title , setTitle] = useState("");
   const [totalAmount, setTotalAmount] = useState("");
@@ -45,7 +45,7 @@ const SplitExpense = () => {
     return;
 }
 
-        await api.post("/splitExpenses", {
+      const response =  await api.post("/splitExpenses", {
             title,
             totalAmount,
             participants:filteredParticipants,
