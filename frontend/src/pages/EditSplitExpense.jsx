@@ -65,7 +65,7 @@ const EditSplitExpense = () => {
 
         try {
          await api.put(`/splitExpenses/${id}` ,{...data, participants:updatedParticipants })
-         navigate("/split-expenses")
+         navigate("/split-expense")
         }
          catch(error) {
             console.log(error.response?.data)
@@ -149,6 +149,7 @@ const EditSplitExpense = () => {
     </div>
 
 ))}
+<div className="flex justify-center gap-3">
 
   <button
     type="button"
@@ -162,6 +163,8 @@ const EditSplitExpense = () => {
  className="bg-green-600 text-white px-5 py-3 rounded-xl mb-8">
 Save Changes
 </button>
+
+</div>
             </form>
 
 
