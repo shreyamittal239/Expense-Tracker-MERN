@@ -7,7 +7,8 @@ const {
     register,
     login,
     logout,
-    getCurrentUser
+    getCurrentUser,
+    forgotPassword
 } = require("../controller/authcontroller");
 
 router.post("/register", register);
@@ -16,7 +17,6 @@ router.post("/login", login);
 
 router.post("/logout", logout);
 router.get("/me", authMiddleware, getCurrentUser);
-
-
+router.post("/forgot-password", forgotPassword);
 
 module.exports = router;

@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema(
             type:String,
             required:true,
             unique:true,
-            lowecase:true,
+            lowercase:true,
             trim:true,
         },
 
@@ -20,6 +20,11 @@ const userSchema = new mongoose.Schema(
              type:String,
              required:true,
              minlength:6,
+        },resetPasswordToken: {
+        type: String,
+        },
+        resetPasswordExpire: {
+        type: Date,
         },
     },
     {

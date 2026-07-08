@@ -128,6 +128,10 @@ const getCurrentUser = async (req, res) => {
 
 };
 
+const forgotPassword = async (req,res) => {
+    
+
+}
 module.exports = {
     register,
     login,
