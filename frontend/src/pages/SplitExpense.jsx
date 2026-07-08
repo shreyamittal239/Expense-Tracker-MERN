@@ -1,14 +1,15 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import DashboardLayout from '../layouts/DashBoardLayout'
-import { useNavigate } from 'react-router-dom';
+
 import api from '../services/api';
 
 const SplitExpense = () => {
-  const navigate = useNavigate();
+  
 
   const [title , setTitle] = useState("");
   const [totalAmount, setTotalAmount] = useState("");
   const [ participants , setParticipants] = useState([""]);
+  const [splitExpenses , setSplitExpenses] = useState([]);
 
  const addParticipant =() => {
   setParticipants([...participants, ""]);
@@ -38,11 +39,10 @@ const SplitExpense = () => {
     );
 
     try {
-       console.log({
-    title,
-    totalAmount,
-    filteredParticipants,
-});
+     if (!title || !totalAmount || filteredParticipants.length === 0) {
+    alert("Please fill all fields");
+    return;
+}
 
         await api.post("/splitExpenses", {
             title,
@@ -51,7 +51,8 @@ const SplitExpense = () => {
         });
        
 
-        navigate("/dashboard");
+        fetchExpenses();   // Refresh history
+    resetForm(); 
 
     } catch (error) {
 
@@ -59,7 +60,34 @@ const SplitExpense = () => {
 
     }
 
+   
 };
+
+ const fetchExpenses = async () => {
+
+            try {
+                const response = await api.get("/splitExpenses")
+                console.log(response.data)
+                setSplitExpenses(response.data.splitExpenses);
+            }
+            catch(error) {
+                console.log(error.response?.data);
+
+            }
+           
+        }
+
+ useEffect(() => {
+
+        fetchExpenses();
+    } ,[])
+
+    const resetForm = () => {
+    setTitle("");
+    setTotalAmount("");
+    setParticipants([""]);
+};
+
 
 
   return (
@@ -192,13 +220,97 @@ const SplitExpense = () => {
     Save Split Expense
 </button>
 
-
-
     </div>
 
     </div>
 
     </form>
+
+    {/* Split Expense History */}
+
+<h2 className="text-2xl font-bold mt-10 mb-5">
+    Split Expense History
+</h2>
+
+{splitExpenses.length === 0 ? (
+
+    <div className="bg-white rounded-2xl shadow-lg p-10 text-center">
+        <p className="text-gray-500 text-lg">
+            No Split Expenses Found
+        </p>
+    </div>
+
+) : (
+
+    <div className="space-y-6">
+
+        {splitExpenses.map((expense) => (
+
+            <div
+                key={expense._id}
+                className="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition duration-300"
+            >
+
+                {/* Expense Header */}
+
+                <div className="flex justify-between items-center mb-4">
+
+                    <div>
+
+                        <h3 className="text-xl font-bold">
+                            {expense.title}
+                        </h3>
+
+                        <p className="text-gray-500">
+                            Total Amount
+                        </p>
+
+                    </div>
+
+                    <div className="text-green-600 font-bold text-xl">
+                        ₹{expense.totalAmount}
+                    </div>
+
+                </div>
+
+                {/* Participants */}
+
+                <div className="border-t pt-4">
+
+                    <h4 className="font-semibold mb-3">
+                        Participants
+                    </h4>
+
+                    {expense.participants.map((participant, index) => (
+
+                        <div
+                            key={index}
+                            className="flex justify-between items-center py-2 border-b last:border-none"
+                        >
+
+                            <span className="font-medium">
+                                {participant.name}
+                            </span>
+
+                            <span className="text-blue-600 font-semibold">
+                                ₹{participant.share}
+                            </span>
+
+                        </div>
+
+                    ))}
+
+                </div>
+
+            </div>
+
+        ))}
+
+    </div>
+
+)}
+
+    
     </DashboardLayout>
   );
   };
