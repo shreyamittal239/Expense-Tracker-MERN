@@ -20,6 +20,6 @@ router.delete("/:id", authMiddleware, deleteSplitExpense);
 
 router.get("/:id" , authMiddleware , getSplitExpense)
 
-router.put("/:id" , authmiddleware , updateSplitExpense )
+router.put("/:id" , authMiddleware , updateSplitExpense )
 
 module.exports = router;
