@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect,useRef, useState } from 'react'
 import DashboardLayout from '../layouts/DashBoardLayout'
-
+import { FaTrash } from 'react-icons/fa';
 import api from '../services/api';
 
 const SplitExpense = () => {
@@ -10,6 +10,7 @@ const SplitExpense = () => {
   const [totalAmount, setTotalAmount] = useState("");
   const [ participants , setParticipants] = useState([""]);
   const [splitExpenses , setSplitExpenses] = useState([]);
+  const historyRef = useRef(null);
 
  const addParticipant =() => {
   setParticipants([...participants, ""]);
@@ -51,8 +52,11 @@ const SplitExpense = () => {
         });
        
 
-        fetchExpenses();   // Refresh history
-    resetForm(); 
+      await  fetchExpenses();   // Refresh history
+             resetForm(); 
+             historyRef.current?.scrollIntoView({
+             behavior: "smooth",
+});
 
     } catch (error) {
 
@@ -87,6 +91,28 @@ const SplitExpense = () => {
     setTotalAmount("");
     setParticipants([""]);
 };
+
+ const deleteExpense = async (id) => {
+
+        const confirmDelete = window.confirm(
+            "Are you sure you want to delete this expense?"
+        );
+
+        if (!confirmDelete) return;
+
+        try {
+
+            await api.delete(`/splitExpenses/${id}`);
+
+            fetchExpenses();
+
+        } catch (error) {
+
+            console.log(error.response?.data);
+
+        }
+
+    };
 
 
 
@@ -227,10 +253,11 @@ const SplitExpense = () => {
     </form>
 
     {/* Split Expense History */}
-
+<div ref={historyRef}>
 <h2 className="text-2xl font-bold mt-10 mb-5">
     Split Expense History
 </h2>
+</div>
 
 {splitExpenses.length === 0 ? (
 
@@ -268,7 +295,9 @@ const SplitExpense = () => {
                     </div>
 
                     <div className="text-green-600 font-bold text-xl">
-                        ₹{expense.totalAmount}
+                        ₹{expense.totalAmount
+                        .toFixed(2)}
+                        
                     </div>
 
                 </div>
@@ -300,12 +329,27 @@ const SplitExpense = () => {
 
                     ))}
 
+                     </div>
+
+            <div className="flex justify-end mt-5">
+
+    <button
+        onClick={() => deleteExpense(expense._id)}
+        className="flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition"
+    >
+        <FaTrash />
+        Delete
+    </button>
+
+   </div>
+
                 </div>
 
-            </div>
+           
 
         ))}
-
+     
+    
     </div>
 
 )}
