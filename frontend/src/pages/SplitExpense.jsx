@@ -341,6 +341,14 @@ const SplitExpense = () => {
         Delete
     </button>
 
+     <button
+        onClick={() => navigate(`/edit-split-expense/${expense._id}`) }
+        className="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition"
+    >
+        <FaTrash />
+        Edit
+    </button>
+
    </div>
 
                 </div>

@@ -10,6 +10,7 @@ import AddExpense from "./pages/AddExpense";
 import EditExpense from "./pages/EditExpense";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { Navigate } from "react-router-dom";
+import EditSplitExpense from "./pages/EditSplitExpense";
 
 
 
@@ -38,6 +39,14 @@ function App() {
       <Route path="/add-expense" element={<ProtectedRoute><AddExpense /></ProtectedRoute>} />
       <Route path="/split-expense" element={<SplitExpense />} />
       <Route path="/edit-expense/:id" element={<ProtectedRoute><EditExpense /></ProtectedRoute>} />
+      <Route
+    path="/edit-split-expense/:id"
+    element={
+        <ProtectedRoute>
+            <EditSplitExpense />
+        </ProtectedRoute>
+    }
+/>
       
 
       {/* 404 */}

@@ -1,4 +1,4 @@
-const SplitExpense = require("../models/splitExpense")
+const splitExpense = require("../models/splitExpense");
 
 const createSplitExpense = async ( req,res)=>{
      const { title, totalAmount, participants } = req.body;
@@ -81,8 +81,84 @@ const deleteSplitExpense = async (req, res) => {
 
 };
 
+const getSplitExpense = async (req, res) => {
+    const splitExpense = await  SplitExpense.findOne({
+        _id: req.params.id,
+        createdBy: req.user.id,
+    });
+
+        if (!splitExpense) {
+            return res.status(404).json({
+                success: false,
+                message: "Expense not found"
+            });
+        }
+
+        if (splitExpense.createdBy.toString() !== req.user.id) {
+            return res.status(403).json({
+                success: false,
+                message: "Access denied"
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            splitExpense
+        });
+};
+
+const updateSplitExpense = async (req, res) => {
+       const splitExpense = await SplitExpense.findById(req.params.id);
+
+        if (!splitExpense) {
+            return res.status(404).json({
+                success: false,
+                message: "Expense not found"
+            });
+        }
+
+        if (splitExpense.createdBy.toString() !== req.user.id) {
+            return res.status(403).json({
+                success: false,
+                message: "Access denied"
+            });
+        }
+
+         const { title, totalAmount, participants } = req.body;
+
+        const share = totalAmount / participants.length;
+
+        const updatedParticipants = participants.map((participant) => ({
+            name: participant.name,
+            share,
+        }));
+
+        const updatedSplitExpense = await SplitExpense.findByIdAndUpdate(
+            req.params.id,
+            {
+                    title,
+                    totalAmount,
+                    participants: updatedParticipants,
+                },
+            { 
+                new: true,
+                runValidators: true
+            }
+        );
+
+        res.status(200).json({
+            success: true,
+            message: "Expense updated successfully",
+            updatedSplitExpense,
+        });
+
+    
+};
+
 module.exports = {
     createSplitExpense,
     getSplitExpenses,
-    deleteSplitExpense
+    deleteSplitExpense,
+    getSplitExpense,
+    updateSplitExpense
 }
