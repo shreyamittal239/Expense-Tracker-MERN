@@ -1,9 +1,10 @@
 import React from 'react'
 import { useState } from 'react';
-import { useParams } from 'react-router-dom'
+import { useNavigate , useParams } from 'react-router-dom'
 import api from '../services/api';
 
 const ResetPasswordPage = () => {
+    const navigate = useNavigate();
 
     const {resetToken} = useParams();
 
