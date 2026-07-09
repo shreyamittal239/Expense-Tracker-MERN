@@ -50,7 +50,7 @@ function App() {
     }
 />
 <Route
-    path="/reset-password/:token"
+    path="/reset-password/:resetToken"
     element={<ResetPasswordPage />}
 />
 <Route 
