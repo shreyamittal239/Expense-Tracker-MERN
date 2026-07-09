@@ -20,7 +20,7 @@ router.post("/logout", logout);
 router.get("/me", authMiddleware, getCurrentUser);
 router.post("/forgot-password", forgotPassword);
 router.post(
-    "/reset-password/:token",
+    "/reset-password/:resetToken",
     resetPassword
 );
 

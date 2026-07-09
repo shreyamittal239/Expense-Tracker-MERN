@@ -148,7 +148,7 @@ const forgotPassword = async (req,res) => {
     .digest("hex");
 
     user.resetPasswordToken = hashedToken;
-    user.resetPasswordExpire = Date.now()+ 15*60*100;
+    user.resetPasswordExpire = Date.now()+ 15*60*1000;
 
     await user.save();
  
@@ -164,7 +164,7 @@ const forgotPassword = async (req,res) => {
     This link expires in 15 minutes.
     `;
 
-await sendEmail.mailOptions({
+await sendEmail({
     from: process.env.EMAIL_USER,
     to: user.email,
     subject: "Password Reset",
@@ -178,7 +178,7 @@ return res.status(200).json({
 }
 
 const resetPassword =  async(req,res) => {
-     const {resetToken} = req.params.token;
+     const {resetToken} = req.params;
 
      const hashedToken = crypto
    .createHash("sha256")
