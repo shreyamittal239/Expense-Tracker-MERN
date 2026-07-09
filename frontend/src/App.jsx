@@ -11,6 +11,8 @@ import EditExpense from "./pages/EditExpense";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { Navigate } from "react-router-dom";
 import EditSplitExpense from "./pages/EditSplitExpense";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 
 
 
@@ -47,6 +49,14 @@ function App() {
         </ProtectedRoute>
     }
 />
+<Route
+    path="/reset-password/:token"
+    element={<ResetPasswordPage />}
+/>
+<Route 
+ path="/forgot-password"
+ element={<ForgotPasswordPage/>}
+ />
       
 
       {/* 404 */}

@@ -1,7 +1,8 @@
 const bcrypt = require("bcrypt");
 const User = require("../models/User")
 const generateToken = require("../utils/generateToken")
-
+const crypto = require("crypto");
+const sendEmail = require("../services/sendEmail")
 
 const register = async (req, res) => {
    const {name , email, password } = req.body; 
@@ -100,7 +101,7 @@ const logout = async (req, res) => {
     res.status(200).json({
         success: true,
          secure: true,
-    sameSite: "none",
+        sameSite: "none",
         message: "Logged out successfully"
     });
 };
@@ -129,12 +130,104 @@ const getCurrentUser = async (req, res) => {
 };
 
 const forgotPassword = async (req,res) => {
-    
+    const {email} = req.body;
 
+    const user =  await User.findOne({email})
+
+    if(!user){
+        return res.status(404).json({
+            success:false,
+            message:"User not Found"
+        });
+    }
+
+    const resetToken = crypto.randomBytes(32).toString("hex");
+
+    const hashedToken = crypto.createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
+
+    user.resetPasswordToken = hashedToken;
+    user.resetPasswordExpire = Date.now()+ 15*60*100;
+
+    await user.save();
+ 
+    const resetUrl = `https://expense-tracker-mern-zeta-eight.vercel.app/reset-password/${resetToken}`;
+
+    const message = `
+   You requested a password reset.
+
+   Click the link below to reset your password:
+
+    ${resetUrl}
+
+    This link expires in 15 minutes.
+    `;
+
+await sendEmail.mailOptions({
+    from: process.env.EMAIL_USER,
+    to: user.email,
+    subject: "Password Reset",
+    text: message,
+});
+
+return res.status(200).json({
+    success: true,
+    message: "Password reset link sent to your email",
+  });
+}
+
+const resetPassword =  async(req,res) => {
+     const {resetToken} = req.params.token;
+
+     const hashedToken = crypto
+   .createHash("sha256")
+   .update(resetToken)
+    .digest("hex");
+
+  const user = await User.findOne({
+    resetPasswordToken: hashedToken,
+    resetPasswordExpire: {
+        $gt: Date.now()
+    }
+});
+
+  if (!user) {
+    return res.status(400).json({
+        success:false,
+        message:"Invalid or expired token"
+    });
+}
+   const {
+    password,
+    confirmPassword
+} = req.body;
+
+   if(password !== confirmPassword){
+    return res.status(400).json({
+        success:false,
+        message:"Passwords do not match"
+    });
+}
+
+user.password =
+await bcrypt.hash(password, 10);
+
+user.resetPasswordToken = undefined;
+user.resetPasswordExpire = undefined;
+
+  await user.save();
+
+  res.status(200).json({
+    success:true,
+    message:"Password reset successfully"
+});
 }
 module.exports = {
     register,
     login,
     logout,
-    getCurrentUser
+    getCurrentUser,
+    forgotPassword,
+    resetPassword
 };

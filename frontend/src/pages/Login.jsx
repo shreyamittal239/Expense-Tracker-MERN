@@ -104,6 +104,16 @@ const Login = () => {
 
                 </div>
 
+                <div className="flex justify-end mb-4">
+        <button
+        type="button"
+        onClick={() => navigate("/forgot-password")}
+        className="text-blue-600 hover:underline text-sm"
+       >
+        Forgot Password?
+       </button>
+     </div>
+
                 <button
                     type="submit"
                     className="w-full bg-green-600 hover:bg-green-700 transition duration-300 text-white py-3 rounded-xl font-semibold"
