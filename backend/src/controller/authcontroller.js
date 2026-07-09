@@ -129,54 +129,70 @@ const getCurrentUser = async (req, res) => {
 
 };
 
-const forgotPassword = async (req,res) => {
-    const {email} = req.body;
+   const forgotPassword = async (req, res) => {
+    try {
+        const { email } = req.body;
 
-    const user =  await User.findOne({email})
+        console.log("Email received:", email);
 
-    if(!user){
-        return res.status(404).json({
-            success:false,
-            message:"User not Found"
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User Not Found",
+            });
+        }
+
+        console.log("User Found:", user.email);
+
+        const resetToken = crypto.randomBytes(32).toString("hex");
+
+        const hashedToken = crypto
+            .createHash("sha256")
+            .update(resetToken)
+            .digest("hex");
+
+        user.resetPasswordToken = hashedToken;
+        user.resetPasswordExpire = Date.now() + 15 * 60 * 1000;
+
+        await user.save();
+
+        console.log("Token saved");
+
+        const resetUrl = `https://expense-tracker-mern-zeta-eight.vercel.app/reset-password/${resetToken}`;
+
+        const message = `
+You requested a password reset.
+
+${resetUrl}
+`;
+
+        console.log("Sending Email...");
+
+        await sendEmail({
+            to: user.email,
+            subject: "Password Reset",
+            text: message,
+        });
+
+        console.log("Email Sent");
+
+        res.status(200).json({
+            success: true,
+            message: "Password reset link sent",
+        });
+
+    } catch (error) {
+        console.error("Forgot Password Error:");
+        console.error(error);
+
+        res.status(500).json({
+            success: false,
+            message: error.message,
         });
     }
-
-    const resetToken = crypto.randomBytes(32).toString("hex");
-
-    const hashedToken = crypto.createHash("sha256")
-    .update(resetToken)
-    .digest("hex");
-
-    user.resetPasswordToken = hashedToken;
-    user.resetPasswordExpire = Date.now()+ 15*60*1000;
-
-    await user.save();
- 
-    const resetUrl = `https://expense-tracker-mern-zeta-eight.vercel.app/reset-password/${resetToken}`;
-
-    const message = `
-   You requested a password reset.
-
-   Click the link below to reset your password:
-
-    ${resetUrl}
-
-    This link expires in 15 minutes.
-    `;
-
-await sendEmail({
-    from: process.env.EMAIL_USER,
-    to: user.email,
-    subject: "Password Reset",
-    text: message,
-});
-
-return res.status(200).json({
-    success: true,
-    message: "Password reset link sent to your email",
-  });
-}
-
+};
 const resetPassword =  async(req,res) => {
      const {resetToken} = req.params;
 
