@@ -11,6 +11,11 @@ const transporter = nodemailer.createTransport({
         pass:process.env.EMAIL_PASS,
     },
 });
+
+console.log("Verifying SMTP...");
+    await transporter.verify();
+    console.log("SMTP Verified");
+
   const mailOptions = {
 
         from: process.env.EMAIL_USER,
@@ -23,7 +28,11 @@ const transporter = nodemailer.createTransport({
 
     };
 
+    console.log("Sending Email...");
     await transporter.sendMail(mailOptions);
+    console.log("Email Sent Successfully");
+
+   
 
 }
 

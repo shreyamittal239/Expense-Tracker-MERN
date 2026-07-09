@@ -170,6 +170,8 @@ ${resetUrl}
 
         console.log("Sending Email...");
 
+        
+
         await sendEmail({
             to: user.email,
             subject: "Password Reset",
