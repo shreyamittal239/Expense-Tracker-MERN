@@ -35,7 +35,35 @@ const setBudget = async ( req , res ) => {
 
        
 
-        const startDate = new Date(year, month - 1, 1);
+       
+
+     res.status(200).json({
+            success: true,
+            message: "Budget saved successfully",
+            budget,
+           
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+}
+} 
+
+const getBudget = async ( req , res) => {
+    try {
+        const currentDate = new Date();
+        const month = currentDate.getMonth() + 1;
+        const year = currentDate.getFullYear();
+
+        const budget = await Budget.findOne({
+            user: req.user.id,
+            month,
+            year,
+        });
+ const startDate = new Date(year, month - 1, 1);
 const endDate = new Date(year, month, 1);
 
 const expenses = await Expense.aggregate([
@@ -75,38 +103,13 @@ const expenses = await Expense.aggregate([
       )
     : 0;
 
-     res.status(200).json({
-            success: true,
-            message: "Budget saved successfully",
-            budget,
-            totalSpent,
-            remaining,
-            percentage,
-        });
-
-    } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: error.message,
-        });
-}
-} 
-
-const getBudget = async ( req , res) => {
-    try {
-        const currentDate = new Date();
-        const month = currentDate.getMonth() + 1;
-        const year = currentDate.getFullYear();
-
-        const budget = await Budget.findOne({
-            user: req.user.id,
-            month,
-            year,
-        });
-
         res.status(200).json({
             success:true,
             budget,
+             totalSpent,
+            remaining,
+            percentage,
+            
         });
     } catch (error) {
         res.status(500).json({
