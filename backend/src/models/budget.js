@@ -1,15 +1,15 @@
-const mongooose = require("mongoose");
+const mongoose = require("mongoose");
 
 const budgetSchema = new mongoose.Schema(
     {
         amount : {
-            type:number,
+            type:Number,
             required:true,
         },
 
         month :{
             type: Number,
-            require: true,
+            required: true,
         },
 
         year : {

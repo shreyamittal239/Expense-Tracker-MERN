@@ -16,13 +16,27 @@ import DashboardCard from "../components/DashboardCard";
 
 const Dashboard = () => {
 
+    const [budget , setBudget ] = useState("");
+    const [budgetAmount , setBudgetAmount] = useState("");
+
     const navigate = useNavigate();
+
+    const fetchBudget = async () => {
+    try {
+        const response = await api.get("/budget");
+
+        setBudget(response.data.budget);
+
+    } catch (error) {
+        console.log(error.response?.data);
+    }
+};
     const { user } = useContext(AuthContext);
     console.log(user);
 
     const [dashboardData, setDashboardData] = useState(null);
 
-    useEffect(() => {
+    
 
          const fetchDashboard = async () => {
 
@@ -40,8 +54,28 @@ const Dashboard = () => {
         }
 
     };
+     const saveBudget = async () => {
+    try {
 
-    fetchDashboard();
+        await api.post("/budget", {
+            amount: budgetAmount,
+        });
+
+        fetchBudget();
+
+        setBudgetAmount("");
+
+    } catch (error) {
+
+        console.log(error.response?.data);
+
+    }
+};
+    
+
+    useEffect(() => {
+        fetchDashboard();
+        fetchBudget();
     } , []);
 
   return (
@@ -101,6 +135,55 @@ const Dashboard = () => {
                     />
 
                 </div>
+
+                <div className="bg-white shadow-lg rounded-xl p-6 mb-6">
+
+    <h2 className="text-2xl font-bold mb-4">
+        Monthly Budget
+    </h2>
+
+    <div className="flex gap-3">
+
+        <input
+            type="number"
+            placeholder="Enter Monthly Budget"
+            value={budgetAmount}
+            onChange={(e) =>
+                setBudgetAmount(e.target.value)
+            }
+            className="border rounded-lg p-3 flex-1"
+        />
+
+        <button
+            onClick={saveBudget}
+            className="bg-blue-600 text-white px-6 rounded-lg"
+        >
+            Save
+        </button>
+
+    </div>
+
+    {budget && (
+
+        <div className="mt-5">
+
+            <h3 className="text-xl font-bold text-green-600">
+
+                Current Budget
+
+            </h3>
+
+            <p className="text-3xl font-bold">
+
+                ₹{budget.amount}
+
+            </p>
+
+        </div>
+
+    )}
+
+</div>
 
                 {/* Pie Chart */}
 
