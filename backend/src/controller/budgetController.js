@@ -1,11 +1,11 @@
-const Budget = require("../models/budget")
+const budget = require("../models/budget")
 
-const setBudget = async ( req , body ) => {
+const setBudget = async ( req , res ) => {
     try {
     const {amount } = req.body;
 
     if ( !amount) {
-         return res.status(400)({
+         return res.status(400).json({
             success : false ,
             message: "Budget amount is required",
          });
