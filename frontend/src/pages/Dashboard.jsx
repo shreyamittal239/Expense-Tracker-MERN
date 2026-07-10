@@ -30,7 +30,7 @@ const Dashboard = () => {
 
         setBudget(response.data.budget);
         setTotalSpent(response.data.totalSpent);
-        setRemaining(response.data.totalSpent);
+        setRemaining(response.data.remaining);
         setPercentage(response.data.percentage);
 
     } catch (error) {
@@ -202,11 +202,7 @@ const Dashboard = () => {
 
             </div>
 
-        </>
-
-    )}
-
-    <div className="w-full bg-gray-300 rounded-full h-4">
+            <div className="w-full bg-gray-300 rounded-full h-4">
 
     <div
         className={`h-4 rounded-full transition-all duration-500 ${
@@ -221,21 +217,28 @@ const Dashboard = () => {
         }}
     />
 
-    {remaining < 0 && (
+        </div>
 
-    <div className="mt-4 bg-red-100 border border-red-400 text-red-700 p-3 rounded-lg">
+        <p className="mt-2 text-sm text-gray-600">
+    {(percentage ?? 0).toFixed(1)}% of your monthly budget used
+</p>
 
-        ⚠ You have exceeded your monthly budget!
+{remaining < 0 && (
 
-    </div>
+<div className="mt-4 bg-red-100 border border-red-400 text-red-700 p-3 rounded-lg">
 
-)}
+⚠ You have exceeded your monthly budget!
 
 </div>
+)}
 
-<p className="mt-2 text-sm text-gray-600">
-    {percentage.toFixed(1)}% of your monthly budget used
-</p>
+
+        </>
+        
+
+    )}
+
+    
 
 </div>
                 
