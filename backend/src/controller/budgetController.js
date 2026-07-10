@@ -32,9 +32,6 @@ const setBudget = async ( req , res ) => {
                 user: req.user.id,
             });
         }
-
-       
-
        
 
      res.status(200).json({
@@ -69,7 +66,7 @@ const getBudget = async ( req , res) => {
 const expenses = await Expense.aggregate([
     {
         $match: {
-            user: req.User.id,
+            user: req.user.id,
             date: {
                 $gte: startDate,
                 $lt: endDate,
