@@ -13,4 +13,4 @@ router.post("/" ,authMiddleware, setBudget);
 router.get("/", authMiddleware ,getBudget);
 router.delete("/" ,authMiddleware, deleteBudget);
 
-module.exports = Router;
+module.exports = router;

@@ -134,9 +134,8 @@ const Dashboard = () => {
                         color="text-purple-500"
                     />
 
-                </div>
 
-                <div className="bg-white shadow-lg rounded-xl p-6 mb-6">
+                    <div className="bg-white shadow-lg rounded-xl p-6 mb-6">
 
     <h2 className="text-2xl font-bold mb-4">
         Monthly Budget
@@ -184,6 +183,10 @@ const Dashboard = () => {
     )}
 
 </div>
+
+                </div>
+
+                
 
                 {/* Pie Chart */}
 
