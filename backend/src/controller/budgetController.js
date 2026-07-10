@@ -1,4 +1,4 @@
-const budget = require("../models/budget")
+const Budget = require("../models/budget")
 
 const setBudget = async ( req , res ) => {
     try {
