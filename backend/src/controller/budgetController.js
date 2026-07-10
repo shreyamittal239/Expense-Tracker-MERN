@@ -1,5 +1,5 @@
 const Budget = require("../models/budget")
-const Expense = require("../models/Expense");
+const Expense = require("../models/expense");
 
 const setBudget = async ( req , res ) => {
     try {
