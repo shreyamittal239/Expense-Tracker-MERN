@@ -1,5 +1,6 @@
 const Budget = require("../models/budget")
 const Expense = require("../models/expense");
+const mongoose = require("mongoose")
 
 const setBudget = async ( req , res ) => {
     try {
@@ -66,7 +67,7 @@ const getBudget = async ( req , res) => {
 const expenses = await Expense.aggregate([
     {
         $match: {
-            user: req.user.id,
+            user: new mongoose.Types.ObjectId(req.user.id),
             date: {
                 $gte: startDate,
                 $lt: endDate,
