@@ -7,9 +7,12 @@ const Profile = () => {
     const [formData, setFormData] = useState({
         name: "",
         email: "",
+        profileImage:"",
     });
 
     const [joinedDate, setJoinedDate] = useState("");
+
+    const [selectedImage, setSelectedImage] = useState(null);
 
     const fetchProfile = async () => {
         try {
@@ -19,6 +22,7 @@ const Profile = () => {
             setFormData({
                 name: response.data.user.name,
                 email: response.data.user.email,
+                  profileImage: response.data.user.profileImage,
             });
 
             setJoinedDate(
@@ -66,6 +70,33 @@ const Profile = () => {
 
     };
 
+    const uploadImage = async () => {
+
+    if (!selectedImage) return;
+
+    const formData = new FormData();
+
+    formData.append("profileImage", selectedImage);
+
+    try {
+
+        const response = await api.put(
+            "/auth/upload-profile",
+            formData
+        );
+
+        alert(response.data.message);
+
+        fetchProfile();
+
+    } catch (error) {
+
+        console.log(error.response?.data);
+
+    }
+
+};
+
     return (
 
         <DashBoardLayout>
@@ -77,10 +108,14 @@ const Profile = () => {
                     <div className="flex flex-col items-center">
 
                         <img
-                            src="https://ui-avatars.com/api/?name=User&background=2563eb&color=fff&size=150"
-                            alt="profile"
-                            className="w-28 h-28 rounded-full mb-4"
-                        />
+    src={
+        formData.profileImage
+            ? formData.profileImage
+            : `https://ui-avatars.com/api/?name=${formData.name}&background=2563eb&color=fff`
+    }
+    alt="Profile"
+    className="w-32 h-32 rounded-full object-cover border-4 border-blue-500"
+/>
 
                         <h2 className="text-3xl font-bold">
                             My Profile
@@ -89,6 +124,19 @@ const Profile = () => {
                         <p className="text-gray-500 mt-2">
                             Joined on {joinedDate}
                         </p>
+
+                        <input
+    type="file"
+    accept="image/*"
+    onChange={(e) => setSelectedImage(e.target.files[0])}
+/>
+
+<button
+    onClick={uploadImage}
+    className="bg-blue-600 text-white px-5 py-2 rounded-lg mt-4"
+>
+    Upload Photo
+</button>
 
                     </div>
 

@@ -69,12 +69,12 @@ const handleLogout = async () => {
                 <div className="flex items-center gap-5">
 
                     <button
-    onClick={() => navigate("/profile")}
-    className="flex items-center gap-2 hover:text-blue-600"
->
-    <FaUserCircle size={22} />
-    Profile
-</button>
+       onClick={() => navigate("/profile")}
+       className="flex items-center gap-2 hover:text-blue-600"
+     >
+            <FaUserCircle size={22} />
+             {user?.name}
+          </button>
 
                     <button
                         onClick={handleLogout}

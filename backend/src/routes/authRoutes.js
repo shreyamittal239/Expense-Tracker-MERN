@@ -2,6 +2,7 @@ const express = require("express");
 
 const router = express.Router();
 const authMiddleware = require("../middleware/authMiddleware")
+const upload = require("../middleware/uploadMiddleware");
 
 const {
     register,
@@ -11,7 +12,8 @@ const {
     forgotPassword,
     resetPassword,
     getProfile,
-    updateProfile
+    updateProfile,
+    uploadProfileImage
 } = require("../controller/authcontroller");
 
 router.post("/register", register);
@@ -27,4 +29,10 @@ router.post(
 );
 router.get("/profile" , authMiddleware , getProfile )
 router.put("/profile" , authMiddleware, updateProfile)
+router.put(
+    "/upload-profile",
+    authMiddleware,
+    upload.single("profileImage"),
+    uploadProfileImage
+);
 module.exports = router;

@@ -274,6 +274,8 @@ const updateProfile = async ( req , res ) => {
         user.name = name || user.name;
         user.email = email || user.email;
 
+        
+
         await user.save();
 
         res.status(200).json({
@@ -289,6 +291,40 @@ const updateProfile = async ( req , res ) => {
         })
     }
 }
+
+const uploadProfileImage = async (req, res) => {
+
+    try {
+
+        const user = await User.findById(req.user.id);
+
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found",
+            });
+        }
+
+        user.profileImage = req.file.path;
+
+        await user.save();
+
+        res.status(200).json({
+            success: true,
+            message: "Profile picture updated successfully",
+            profileImage: user.profileImage,
+        });
+
+    } catch (error) {
+
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+
+    }
+
+};
 module.exports = {
     register,
     login,
@@ -297,5 +333,6 @@ module.exports = {
     forgotPassword,
     resetPassword,
     getProfile,
-    updateProfile
+    updateProfile,
+    uploadProfileImage
 };
