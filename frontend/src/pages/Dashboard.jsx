@@ -24,6 +24,11 @@ const Dashboard = () => {
 
     const navigate = useNavigate();
 
+    const currentMonth = new Date().toLocaleString("default", {
+    month: "long",
+    year: "numeric",
+});
+
     const fetchBudget = async () => {
     try {
         const response = await api.get("/budget");
@@ -153,7 +158,7 @@ const Dashboard = () => {
 
         <div>
             <h2 className="text-2xl font-bold">
-                Monthly Budget
+                Monthly Budget ({currentMonth})
             </h2>
 
             <p className="text-gray-500">

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthProvider";
 import { Link } from "react-router-dom";
 import { FaWallet } from "react-icons/fa";
+import { FaUserCircle } from "react-icons/fa";
 
 const Navbar = () => {
 
@@ -67,11 +68,13 @@ const handleLogout = async () => {
 
                 <div className="flex items-center gap-5">
 
-                    <span className="font-medium">
-
-                        👋 {user?.name}
-
-                    </span>
+                    <button
+    onClick={() => navigate("/profile")}
+    className="flex items-center gap-2 hover:text-blue-600"
+>
+    <FaUserCircle size={22} />
+    Profile
+</button>
 
                     <button
                         onClick={handleLogout}

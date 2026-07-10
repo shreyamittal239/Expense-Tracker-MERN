@@ -241,11 +241,61 @@ user.resetPasswordExpire = undefined;
     message:"Password reset successfully"
 });
 }
+
+const getProfile = async ( req, res) => {
+    try{
+        const user = await User.findById(req.user.id)
+        .select("-password");
+
+        res.status(200).json({
+            succes:true,
+            user,
+        })
+    } catch(error){
+
+        res.status(500).json({
+            success:false,
+            message:error.message,
+        })
+    }
+}
+
+const updateProfile = async ( req , res ) => {
+    try{
+        const {name , email} = req.body;
+        const user = await User.findById(req.user.id);
+
+        if(!user) {
+            return res.status(404).json({
+                success:false,
+                message:"User not found",
+            })
+        }
+        user.name = name || user.name;
+        user.email = email || user.email;
+
+        await user.save();
+
+        res.status(200).json({
+            success:true,
+            message:"Profile updated successfully",
+            user,
+        })
+    } catch(error){
+        res.status(500).json({
+            success:false,
+            message:error.message,
+            
+        })
+    }
+}
 module.exports = {
     register,
     login,
     logout,
     getCurrentUser,
     forgotPassword,
-    resetPassword
+    resetPassword,
+    getProfile,
+    updateProfile
 };

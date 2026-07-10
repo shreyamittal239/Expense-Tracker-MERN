@@ -9,7 +9,9 @@ const {
     logout,
     getCurrentUser,
     forgotPassword,
-    resetPassword
+    resetPassword,
+    getProfile,
+    updateProfile
 } = require("../controller/authcontroller");
 
 router.post("/register", register);
@@ -23,5 +25,6 @@ router.post(
     "/reset-password/:resetToken",
     resetPassword
 );
-
+router.get("/profile" , authMiddleware , getProfile )
+router.put("/profile" , authMiddleware, updateProfile)
 module.exports = router;

@@ -13,7 +13,7 @@ import { Navigate } from "react-router-dom";
 import EditSplitExpense from "./pages/EditSplitExpense";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
-
+import Profile from "./pages/Profile";
 
 
 
@@ -52,6 +52,10 @@ function App() {
 <Route
     path="/reset-password/:resetToken"
     element={<ResetPasswordPage />}
+/>
+<Route
+    path="/profile"
+    element={<Profile />}
 />
 <Route 
  path="/forgot-password"
