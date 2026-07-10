@@ -126,9 +126,9 @@ const Profile = () => {
                         </p>
 
                         <input
-    type="file"
-    accept="image/*"
-    onChange={(e) => setSelectedImage(e.target.files[0])}
+               type="file"
+               accept="image/*"
+       onChange={(e) => setSelectedImage(e.target.files[0])}
 />
 
 <button

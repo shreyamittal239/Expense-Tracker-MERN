@@ -12,6 +12,11 @@ const storage = new CloudinaryStorage({
 
 const upload = multer({
     storage,
-});
+})
+
+ console.log("Cloudinary Config:");
+console.log(process.env.CLOUDINARY_CLOUD_NAME);
+console.log(process.env.CLOUDINARY_API_KEY);
+
 
 module.exports = upload;

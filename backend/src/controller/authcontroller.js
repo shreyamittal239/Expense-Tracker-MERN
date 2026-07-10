@@ -293,37 +293,39 @@ const updateProfile = async ( req , res ) => {
 }
 
 const uploadProfileImage = async (req, res) => {
-
     try {
+        console.log("1. Request received");
+
+        console.log("2. File:", req.file);
+
+        console.log("3. User:", req.user);
 
         const user = await User.findById(req.user.id);
 
-        if (!user) {
-            return res.status(404).json({
-                success: false,
-                message: "User not found",
-            });
-        }
+        console.log("4. User found");
 
         user.profileImage = req.file.path;
 
+        console.log("5. Image URL:", req.file.path);
+
         await user.save();
+
+        console.log("6. User saved");
 
         res.status(200).json({
             success: true,
-            message: "Profile picture updated successfully",
+            message: "Profile updated",
             profileImage: user.profileImage,
         });
 
     } catch (error) {
+        console.error(error);
 
         res.status(500).json({
             success: false,
             message: error.message,
         });
-
     }
-
 };
 module.exports = {
     register,
