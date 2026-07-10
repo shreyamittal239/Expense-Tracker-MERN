@@ -1,4 +1,5 @@
 const Budget = require("../models/budget")
+const Expense = require("../models/Expense");
 
 const setBudget = async ( req , res ) => {
     try {
@@ -32,10 +33,55 @@ const setBudget = async ( req , res ) => {
             });
         }
 
-        res.status(200).json({
+       
+
+        const startDate = new Date(year, month - 1, 1);
+const endDate = new Date(year, month, 1);
+
+const expenses = await Expense.aggregate([
+    {
+        $match: {
+            user: req.user.id,
+            date: {
+                $gte: startDate,
+                $lt: endDate,
+            },
+        },
+    },
+    {
+        $group: {
+            _id: null,
+            totalSpent: {
+                $sum: "$amount",
+            },
+        },
+    },
+]);
+
+   const totalSpent =
+    expenses.length > 0
+        ? expenses[0].totalSpent
+        : 0;
+
+
+        const remaining = budget
+    ? budget.amount - totalSpent
+    : 0;
+
+    const percentage = budget
+    ? Math.min(
+          (totalSpent / budget.amount) * 100,
+          100
+      )
+    : 0;
+
+     res.status(200).json({
             success: true,
             message: "Budget saved successfully",
             budget,
+            totalSpent,
+            remaining,
+            percentage,
         });
 
     } catch (error) {

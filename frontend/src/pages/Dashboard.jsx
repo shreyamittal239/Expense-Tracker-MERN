@@ -16,7 +16,10 @@ import DashboardCard from "../components/DashboardCard";
 
 const Dashboard = () => {
 
-    const [budget , setBudget ] = useState("");
+    const [budget , setBudget ] = useState(null);
+    const [totalSpent, setTotalSpent] = useState(0);
+    const [remaining, setRemaining] = useState(0);
+    const [percentage, setPercentage] = useState(0);
     const [budgetAmount , setBudgetAmount] = useState("");
 
     const navigate = useNavigate();
@@ -26,6 +29,9 @@ const Dashboard = () => {
         const response = await api.get("/budget");
 
         setBudget(response.data.budget);
+        setTotalSpent(response.data.totalSpent);
+        setRemaining(response.data.totalSpent);
+        setPercentage(response.data.percentage);
 
     } catch (error) {
         console.log(error.response?.data);
@@ -134,28 +140,27 @@ const Dashboard = () => {
                         color="text-purple-500"
                     />
 
+                </div>
+    
+       <div className="bg-white rounded-2xl shadow-lg p-6 mb-6">
 
-                    <div className="bg-white shadow-lg rounded-xl p-6 mb-6">
-
-    <h2 className="text-2xl font-bold mb-4">
+    <h2 className="text-2xl font-bold mb-5">
         Monthly Budget
     </h2>
 
-    <div className="flex gap-3">
+    <div className="flex gap-3 mb-5">
 
         <input
             type="number"
-            placeholder="Enter Monthly Budget"
+            placeholder="Enter Budget"
             value={budgetAmount}
-            onChange={(e) =>
-                setBudgetAmount(e.target.value)
-            }
+            onChange={(e) => setBudgetAmount(e.target.value)}
             className="border rounded-lg p-3 flex-1"
         />
 
         <button
             onClick={saveBudget}
-            className="bg-blue-600 text-white px-6 rounded-lg"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-5 rounded-lg"
         >
             Save
         </button>
@@ -164,28 +169,75 @@ const Dashboard = () => {
 
     {budget && (
 
-        <div className="mt-5">
+        <>
 
-            <h3 className="text-xl font-bold text-green-600">
+            <div className="grid grid-cols-3 gap-5 mb-5">
 
-                Current Budget
+                <div>
+                    <p className="text-gray-500">Budget</p>
+                    <h3 className="text-2xl font-bold">
+                        ₹{budget.amount}
+                    </h3>
+                </div>
 
-            </h3>
+                <div>
+                    <p className="text-gray-500">Spent</p>
+                    <h3 className="text-red-500 text-2xl font-bold">
+                        ₹{totalSpent}
+                    </h3>
+                </div>
 
-            <p className="text-3xl font-bold">
+                <div>
+                    <p className="text-gray-500">Remaining</p>
+                    <h3
+                        className={`text-2xl font-bold ${
+                            remaining >= 0
+                                ? "text-green-600"
+                                : "text-red-600"
+                        }`}
+                    >
+                        ₹{remaining}
+                    </h3>
+                </div>
 
-                ₹{budget.amount}
+            </div>
 
-            </p>
-
-        </div>
+        </>
 
     )}
 
+    <div className="w-full bg-gray-300 rounded-full h-4">
+
+    <div
+        className={`h-4 rounded-full transition-all duration-500 ${
+            percentage < 80
+                ? "bg-green-500"
+                : percentage < 100
+                ? "bg-yellow-500"
+                : "bg-red-500"
+        }`}
+        style={{
+            width: `${percentage}%`,
+        }}
+    />
+
+    {remaining < 0 && (
+
+    <div className="mt-4 bg-red-100 border border-red-400 text-red-700 p-3 rounded-lg">
+
+        ⚠ You have exceeded your monthly budget!
+
+    </div>
+
+)}
+
 </div>
 
-                </div>
+<p className="mt-2 text-sm text-gray-600">
+    {percentage.toFixed(1)}% of your monthly budget used
+</p>
 
+</div>
                 
 
                 {/* Pie Chart */}
