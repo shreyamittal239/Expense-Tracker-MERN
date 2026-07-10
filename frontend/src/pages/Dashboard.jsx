@@ -142,111 +142,194 @@ const Dashboard = () => {
 
                 </div>
     
-       <div className="bg-white rounded-2xl shadow-lg p-6 mb-6">
+      
+    </div>
+          
+          {/* Monthly Budget */}
 
-    <h2 className="text-2xl font-bold mb-5">
-        Monthly Budget
-    </h2>
+<div className="bg-white rounded-2xl shadow-lg p-6 mt-8">
 
-    <div className="flex gap-3 mb-5">
+    <div className="flex justify-between items-center mb-6">
+
+        <div>
+            <h2 className="text-2xl font-bold">
+                Monthly Budget
+            </h2>
+
+            <p className="text-gray-500">
+                Track your monthly spending goal.
+            </p>
+        </div>
+
+    </div>
+
+    {/* Budget Input */}
+
+    <div className="flex flex-col md:flex-row gap-4 mb-8">
 
         <input
             type="number"
-            placeholder="Enter Budget"
+            placeholder="Enter Monthly Budget"
             value={budgetAmount}
-            onChange={(e) => setBudgetAmount(e.target.value)}
-            className="border rounded-lg p-3 flex-1"
+            onChange={(e) =>
+                setBudgetAmount(e.target.value)
+            }
+            className="flex-1 border border-gray-300 rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
 
         <button
             onClick={saveBudget}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-5 rounded-lg"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-semibold transition"
         >
-            Save
+            Save Budget
         </button>
 
     </div>
 
-   
-        
-
-    
-
-     {budget && (
+    {budget ? (
 
         <>
 
-            <div className="grid grid-cols-3 gap-5 mb-5">
+            {/* Summary Cards */}
 
-                <div>
-                    <p className="text-gray-500">Budget</p>
-                    <h3 className="text-2xl font-bold">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
+
+                <div className="bg-green-50 rounded-xl p-5 shadow-sm">
+
+                    <p className="text-gray-500">
+                        Monthly Budget
+                    </p>
+
+                    <h3 className="text-3xl font-bold text-green-600 mt-2">
                         ₹{budget.amount}
                     </h3>
+
                 </div>
 
-                <div>
-                    <p className="text-gray-500">Spent</p>
-                    <h3 className="text-red-500 text-2xl font-bold">
+                <div className="bg-red-50 rounded-xl p-5 shadow-sm">
+
+                    <p className="text-gray-500">
+                        Total Spent
+                    </p>
+
+                    <h3 className="text-3xl font-bold text-red-500 mt-2">
                         ₹{totalSpent}
                     </h3>
+
                 </div>
 
-                <div>
-                    <p className="text-gray-500">Remaining</p>
+                <div className="bg-blue-50 rounded-xl p-5 shadow-sm">
+
+                    <p className="text-gray-500">
+                        Remaining
+                    </p>
+
                     <h3
-                        className={`text-2xl font-bold ${
+                        className={`text-3xl font-bold mt-2 ${
                             remaining >= 0
-                                ? "text-green-600"
+                                ? "text-blue-600"
                                 : "text-red-600"
                         }`}
                     >
                         ₹{remaining}
                     </h3>
+
                 </div>
 
             </div>
 
-            <div className="w-full bg-gray-300 rounded-full h-4">
+            {/* Progress */}
 
-    <div
-        className={`h-4 rounded-full transition-all duration-500 ${
-            percentage < 80
-                ? "bg-green-500"
-                : percentage < 100
-                ? "bg-yellow-500"
-                : "bg-red-500"
-        }`}
-        style={{
-            width: `${percentage}%`,
-        }}
-    />
+            <div>
 
-        </div>
+                <div className="flex justify-between mb-2">
 
-        <p className="mt-2 text-sm text-gray-600">
-    {(percentage ?? 0).toFixed(1)}% of your monthly budget used
-</p>
+                    <span className="font-medium">
+                        Budget Usage
+                    </span>
 
-{remaining < 0 && (
+                    <span className="font-semibold">
+                        {Number(percentage || 0).toFixed(1)}%
+                    </span>
 
-<div className="mt-4 bg-red-100 border border-red-400 text-red-700 p-3 rounded-lg">
+                </div>
 
-⚠ You have exceeded your monthly budget!
+                <div className="w-full h-4 bg-gray-200 rounded-full overflow-hidden">
 
-</div>
-)}
+                    <div
+                        className={`h-full transition-all duration-700 ${
+                            percentage < 70
+                                ? "bg-green-500"
+                                : percentage < 100
+                                ? "bg-yellow-500"
+                                : "bg-red-500"
+                        }`}
+                        style={{
+                            width: `${Math.min(
+                                Number(percentage || 0),
+                                100
+                            )}%`,
+                        }}
+                    />
 
+                </div>
+
+                <p className="mt-3 text-gray-500">
+
+                    You have used{" "}
+
+                    <span className="font-semibold">
+
+                        {Number(percentage || 0).toFixed(1)}%
+
+                    </span>{" "}
+
+                    of your monthly budget.
+
+                </p>
+
+            </div>
+
+            {/* Warning */}
+
+            {remaining < 0 && (
+
+                <div className="mt-6 bg-red-100 border border-red-400 rounded-xl p-4">
+
+                    <h4 className="font-bold text-red-700">
+                        Budget Exceeded ⚠
+                    </h4>
+
+                    <p className="text-red-600 mt-1">
+                        You have exceeded your monthly budget.
+                        Try reducing your spending.
+                    </p>
+
+                </div>
+
+            )}
 
         </>
 
-)}
+    ) : (
 
-    
+        <div className="bg-gray-50 rounded-xl p-8 text-center">
+
+            <h3 className="text-xl font-semibold">
+                No Budget Set
+            </h3>
+
+            <p className="text-gray-500 mt-2">
+                Enter your monthly budget above to start tracking your spending.
+            </p>
+
+        </div>
+
+    )}
 
 </div>
                 
-
+            <div>
                 {/* Pie Chart */}
 
                 {dashboardData?.categoryWiseExpense?.length > 0 && (
