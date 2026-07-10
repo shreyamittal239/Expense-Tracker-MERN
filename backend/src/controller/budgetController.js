@@ -64,12 +64,12 @@ const getBudget = async ( req , res) => {
             year,
         });
  const startDate = new Date(year, month - 1, 1);
-const endDate = new Date(year, month, 1);
+ const endDate = new Date(year, month, 1);
 
 const expenses = await Expense.aggregate([
     {
         $match: {
-            user: req.user.id,
+            user: req.User.id,
             date: {
                 $gte: startDate,
                 $lt: endDate,
