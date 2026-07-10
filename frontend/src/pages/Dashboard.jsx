@@ -167,7 +167,12 @@ const Dashboard = () => {
 
     </div>
 
-    {budget && (
+   
+        
+
+    
+
+     {budget && (
 
         <>
 
@@ -234,9 +239,8 @@ const Dashboard = () => {
 
 
         </>
-        
 
-    )}
+)}
 
     
 
