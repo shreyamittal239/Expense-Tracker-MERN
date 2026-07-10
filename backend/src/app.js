@@ -7,6 +7,7 @@ const expenseRoutes = require("./routes/expenseRoutes");
 const dashboardRoutes = require("./routes/dashboardRoutes");
 const splitExpenseRoutes = require("./routes/splitExpenseRoutes")
 const cors = require("cors")
+const budgetRoutes = require("./routes/budgetRoutes");
 
 
 const app = express();
@@ -31,6 +32,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/expenses", expenseRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/splitExpenses", splitExpenseRoutes);
+app.use("/api/budget", budgetRoutes);
 
 
 module.exports = app;
