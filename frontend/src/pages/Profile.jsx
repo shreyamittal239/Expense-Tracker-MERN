@@ -138,6 +138,11 @@ const Profile = () => {
                             <input
                                 type="file"
                                 accept="image/*"
+                                style={{
+                                    border: "1px solid black",
+                                     padding: "10px",
+                                      display: "block",
+                                 }}
                                 onChange={(e) => {
                                     const file = e.target.files[0];
 
