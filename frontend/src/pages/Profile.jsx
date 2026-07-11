@@ -22,7 +22,7 @@ const Profile = () => {
             setFormData({
                 name: response.data.user.name,
                 email: response.data.user.email,
-                  profileImage: response.data.user.profileImage,
+                profileImage: response.data.user.profileImage,
             });
 
             setJoinedDate(
