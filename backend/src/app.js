@@ -8,7 +8,7 @@ const dashboardRoutes = require("./routes/dashboardRoutes");
 const splitExpenseRoutes = require("./routes/splitExpenseRoutes")
 const cors = require("cors")
 const budgetRoutes = require("./routes/budgetRoutes");
-
+const groupRoutes = require("./routes/groupRoutes");
 
 const app = express();
 
@@ -21,6 +21,7 @@ app.use(cors({
     ],
     credentials: true
 }));
+app.use("/api/groups", groupRoutes);
 
 
 app.get("/", (req, res) => {
@@ -33,6 +34,7 @@ app.use("/api/expenses", expenseRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/splitExpenses", splitExpenseRoutes);
 app.use("/api/budget", budgetRoutes);
+app.use("/api/groups", groupRoutes);
 
 
 module.exports = app;
