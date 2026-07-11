@@ -72,6 +72,10 @@ const Profile = () => {
 
     const uploadImage = async () => {
 
+        console.log("uploadImage called");
+    console.log(selectedImage);
+
+
     if (!selectedImage) return;
 
     const formData = new FormData();
@@ -79,6 +83,7 @@ const Profile = () => {
     formData.append("profileImage", selectedImage);
 
     try {
+        console.log("Sending request...");
 
         const response = await api.put(
             "/auth/upload-profile",
@@ -128,7 +133,10 @@ const Profile = () => {
                         <input
                type="file"
                accept="image/*"
-       onChange={(e) => setSelectedImage(e.target.files[0])}
+               
+       onChange={(e) => {
+         console.log("Selected:", e.target.files[0]);
+        setSelectedImage(e.target.files[0])}}
 />
 
 <button
