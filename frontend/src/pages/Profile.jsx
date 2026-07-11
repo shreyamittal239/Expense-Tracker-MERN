@@ -132,7 +132,11 @@ const Profile = () => {
 />
 
 <button
-    onClick={uploadImage}
+   type="button"
+    onClick={() => {
+        console.log("Button Clicked");
+        uploadImage();
+    }}
     className="bg-blue-600 text-white px-5 py-2 rounded-lg mt-4"
 >
     Upload Photo
