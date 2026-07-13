@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const groupSchema = new mongoose.Schema(
     {
         name: {
-            type:Stirng,
+            type:String,
             required:true,
             trim:true,
         },
