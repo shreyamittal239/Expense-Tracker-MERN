@@ -174,60 +174,101 @@ const deleteGroupExpense = async (req, res) => {
 const getGroupBalances = async (req, res) => {
     try {
 
-        // Check if group exists
-        const group = await Group.findById(req.params.groupId);
+        console.log("========== GET GROUP BALANCES ==========");
+
+        console.log("Group ID:", req.params.groupId);
+        console.log("Logged In User:", req.user);
+
+        // ---------------------------------------
+        // Check Group
+        // ---------------------------------------
+
+        const group = await Group.findById(req.params.groupId)
+            .populate("members", "name email");
+
+        console.log("Group Found:", group);
 
         if (!group) {
             return res.status(404).json({
                 success: false,
-                message: "Group not found.",
+                message: "Group not found",
             });
         }
 
-        // Check if logged in user belongs to group
-        if (!group.members.some(member => member.toString() === req.user.id)) {
+        const isMember = group.members.some(
+            member => member._id.toString() === req.user.id
+        );
+
+        console.log("Is Member:", isMember);
+
+        if (!isMember) {
             return res.status(403).json({
                 success: false,
                 message: "Unauthorized",
             });
         }
 
-        // Fetch all expenses
+        // ---------------------------------------
+        // Fetch Expenses
+        // ---------------------------------------
+
         const expenses = await GroupExpense.find({
             group: req.params.groupId,
         })
-            .populate("paidBy", "name")
-            .populate("participants", "name");
+            .populate("paidBy", "name profileImage")
+            .populate("participants", "name profileImage");
+
+        console.log("Expenses Count:", expenses.length);
+        console.log("Expenses:", expenses);
 
         const balances = {};
 
-        // -----------------------------
-        // Calculate Net Balance
-        // -----------------------------
+        // ---------------------------------------
+        // Calculate Balances
+        // ---------------------------------------
+
         for (const expense of expenses) {
 
-            const share = expense.amount / expense.participants.length;
+            console.log("--------------------------------");
+            console.log("Expense Title:", expense.title);
+            console.log("Amount:", expense.amount);
 
-            // Payer gets full credit
-           const payerId = expense.paidBy._id.toString();
+            console.log("Paid By:", expense.paidBy);
 
-balances[payerId] =
-    (balances[payerId] || 0) + expense.amount;
+            console.log("Participants:", expense.participants);
 
-            // Every participant owes equal share
-            expense.participants.forEach((member) => {
-              const memberId = member._id.toString();
+            const share =
+                expense.amount / expense.participants.length;
 
-balances[memberId] =
-    (balances[memberId] || 0) - share;})
+            console.log("Share:", share);
+
+            const payerId = expense.paidBy._id.toString();
+
+            balances[payerId] =
+                (balances[payerId] || 0) + expense.amount;
+
+            expense.participants.forEach(member => {
+
+                const memberId = member._id.toString();
+
+                balances[memberId] =
+                    (balances[memberId] || 0) - share;
+
+            });
+
+            console.log("Balances After Expense:");
+            console.log(balances);
+
         }
 
-        console.log("Balances:");
-console.log(balances);
+        console.log("================================");
+        console.log("Final Balances:");
+        console.log(balances);
 
-        // -----------------------------
-        // Separate Creditors & Debtors
-        // -----------------------------
+        // ---------------------------------------
+        // Creditors & Debtors
+        // ---------------------------------------
+
         const creditors = [];
         const debtors = [];
 
@@ -236,8 +277,11 @@ console.log(balances);
             if (balances[userId] > 0) {
 
                 creditors.push({
+
                     userId,
+
                     amount: balances[userId],
+
                 });
 
             }
@@ -245,17 +289,27 @@ console.log(balances);
             else if (balances[userId] < 0) {
 
                 debtors.push({
+
                     userId,
+
                     amount: Math.abs(balances[userId]),
+
                 });
 
             }
 
         }
 
-        // -----------------------------
-        // Calculate Settlements
-        // -----------------------------
+        console.log("Creditors:");
+        console.log(creditors);
+
+        console.log("Debtors:");
+        console.log(debtors);
+
+        // ---------------------------------------
+        // Settlements
+        // ---------------------------------------
+
         const settlements = [];
 
         let i = 0;
@@ -263,27 +317,47 @@ console.log(balances);
 
         while (i < debtors.length && j < creditors.length) {
 
+            console.log("--------------");
+
+            console.log("Current Debtor:");
+            console.log(debtors[i]);
+
+            console.log("Current Creditor:");
+            console.log(creditors[j]);
+
             const amount = Math.min(
                 debtors[i].amount,
                 creditors[j].amount
             );
 
-         const fromUser = await User.findById(debtors[i].userId).select("name profileImage");
+            console.log("Settlement Amount:", amount);
 
-const toUser = await User.findById(creditors[j].userId).select("name profileImage");
+            const fromUser = await User.findById(
+                debtors[i].userId
+            ).select("name profileImage");
 
-settlements.push({
+            const toUser = await User.findById(
+                creditors[j].userId
+            ).select("name profileImage");
 
-    from: fromUser,
+            console.log("From User:", fromUser);
+            console.log("To User:", toUser);
 
-    to: toUser,
+            settlements.push({
 
-    amount,
+                from: fromUser,
 
-});
+                to: toUser,
+
+                amount,
+
+            });
 
             debtors[i].amount -= amount;
             creditors[j].amount -= amount;
+
+            console.log("Updated Debtor:", debtors[i]);
+            console.log("Updated Creditor:", creditors[j]);
 
             if (debtors[i].amount === 0) {
                 i++;
@@ -295,17 +369,31 @@ settlements.push({
 
         }
 
+        console.log("===============================");
+        console.log("Final Settlements:");
+        console.log(settlements);
+
         return res.status(200).json({
+
             success: true,
+
             balances,
+
             settlements,
+
         });
 
     } catch (error) {
 
+        console.log("ERROR OCCURRED");
+        console.log(error);
+
         return res.status(500).json({
+
             success: false,
+
             message: error.message,
+
         });
 
     }
