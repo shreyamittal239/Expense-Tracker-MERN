@@ -428,8 +428,10 @@ className="w-10 h-10 rounded-full"
 />
 
                         {item.from.name}
+                        <br>
 
                         owes
+                        </br>
 
 <img
 
