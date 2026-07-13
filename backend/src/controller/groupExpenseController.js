@@ -92,7 +92,7 @@ const getGroupExpenses = async (req, res) => {
 
     try {
 
-        const group = await ExpenseGroup.findById(req.params.groupId);
+        const group = await Group.findById(req.params.groupId);
 
         if (!group) {
             return res.status(404).json({
