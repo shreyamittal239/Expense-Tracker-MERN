@@ -18,6 +18,7 @@ const GroupDetails = () => {
     const [email, setEmail] = useState("");
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
+    const [balances, setBalances] = useState([]);
 
 const [expenses, setExpenses] = useState([]);
 
@@ -85,11 +86,29 @@ const [expenses, setExpenses] = useState([]);
     }
 
 };
+const fetchBalances = async () => {
+
+    try {
+
+        const response = await api.get(
+            `/group-expenses/balances/${groupId}`
+        );
+
+        setBalances(response.data.settlements);
+
+    } catch (error) {
+
+        console.log(error.response?.data);
+
+    }
+
+};
 
     useEffect(() => {
 
         fetchGroup();
         fetchExpenses();
+         fetchBalances();
 
     }, []);
 
@@ -380,6 +399,74 @@ const [expenses, setExpenses] = useState([]);
                 </div>
 
             </div>
+
+            <div className="bg-white rounded-xl shadow-md p-6 mt-8">
+
+    <h2 className="text-2xl font-bold mb-5">
+
+        Group Balances
+
+    </h2>
+
+    {
+        balances.length > 0 ?
+
+        balances.map((item,index)=>(
+
+            <div
+                key={index}
+                className="flex justify-between items-center border-b py-4"
+            >
+
+                <div>
+
+                    <p className="font-semibold">
+                        <img
+
+src={item.from.profileImage}
+
+className="w-10 h-10 rounded-full"
+
+/>
+
+                        {item.from.name}
+
+                        owes
+
+<img
+
+src={item.to.profileImage}
+
+className="w-10 h-10 rounded-full"
+
+/>
+                        {item.to.name}
+
+                    </p>
+
+                </div>
+
+                <span className="text-red-500 font-bold">
+
+                    ₹{item.amount.toFixed(2)}
+
+                </span>
+
+            </div>
+
+        ))
+
+        :
+
+        <p className="text-gray-500">
+
+            Everyone is settled up 🎉
+
+        </p>
+
+    }
+
+</div>
 
             {showModal && (
 

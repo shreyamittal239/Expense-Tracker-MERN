@@ -171,8 +171,144 @@ const deleteGroupExpense = async (req, res) => {
 
 };
 
+const getGroupBalances = async (req, res) => {
+    try {
+
+        // Check if group exists
+        const group = await Group.findById(req.params.groupId);
+
+        if (!group) {
+            return res.status(404).json({
+                success: false,
+                message: "Group not found.",
+            });
+        }
+
+        // Check if logged in user belongs to group
+        if (!group.members.some(member => member.toString() === req.user.id)) {
+            return res.status(403).json({
+                success: false,
+                message: "Unauthorized",
+            });
+        }
+
+        // Fetch all expenses
+        const expenses = await GroupExpense.find({
+            group: req.params.groupId,
+        })
+            .populate("paidBy", "name")
+            .populate("participants", "name");
+
+        const balances = {};
+
+        // -----------------------------
+        // Calculate Net Balance
+        // -----------------------------
+        for (const expense of expenses) {
+
+            const share = expense.amount / expense.participants.length;
+
+            // Payer gets full credit
+            balances[expense.paidBy._id] =
+                (balances[expense.paidBy._id] || 0) + expense.amount;
+
+            // Every participant owes equal share
+            expense.participants.forEach((member) => {
+                balances[member._id] =
+                    (balances[member._id] || 0) - share;
+            });
+
+        }
+
+        // -----------------------------
+        // Separate Creditors & Debtors
+        // -----------------------------
+        const creditors = [];
+        const debtors = [];
+
+        for (const userId in balances) {
+
+            if (balances[userId] > 0) {
+
+                creditors.push({
+                    userId,
+                    amount: balances[userId],
+                });
+
+            }
+
+            else if (balances[userId] < 0) {
+
+                debtors.push({
+                    userId,
+                    amount: Math.abs(balances[userId]),
+                });
+
+            }
+
+        }
+
+        // -----------------------------
+        // Calculate Settlements
+        // -----------------------------
+        const settlements = [];
+
+        let i = 0;
+        let j = 0;
+
+        while (i < debtors.length && j < creditors.length) {
+
+            const amount = Math.min(
+                debtors[i].amount,
+                creditors[j].amount
+            );
+
+         const fromUser = await User.findById(debtors[i].userId).select("name profileImage");
+
+const toUser = await User.findById(creditors[j].userId).select("name profileImage");
+
+settlements.push({
+
+    from: fromUser,
+
+    to: toUser,
+
+    amount,
+
+});
+
+            debtors[i].amount -= amount;
+            creditors[j].amount -= amount;
+
+            if (debtors[i].amount === 0) {
+                i++;
+            }
+
+            if (creditors[j].amount === 0) {
+                j++;
+            }
+
+        }
+
+        return res.status(200).json({
+            success: true,
+            balances,
+            settlements,
+        });
+
+    } catch (error) {
+
+        return res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+
+    }
+};
+
 module.exports = {
     addGroupExpense,
     getGroupExpenses,
     deleteGroupExpense,
+    getGroupBalances
 };
