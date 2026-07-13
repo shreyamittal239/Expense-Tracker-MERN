@@ -14,7 +14,8 @@ import EditSplitExpense from "./pages/EditSplitExpense";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import Profile from "./pages/Profile";
-
+import Groups from "./pages/Groups";
+import GroupDetails from "./pages/GroupDetails";
 
 
 function App() {
@@ -29,6 +30,10 @@ function App() {
       <Route path="/register" element={<Register />} />
 
       <Route path="/groups" element={<Groups />} />
+      <Route
+    path="/groups/:id"
+    element={<GroupDetails />}
+/>
 
       {/* Protected Routes */}
       <Route
