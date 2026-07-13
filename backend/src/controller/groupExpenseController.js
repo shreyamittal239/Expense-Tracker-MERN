@@ -30,7 +30,7 @@ const addGroupExpense = async(req , res) =>{
         }
 
         // Check if group exists
-        const group = await ExpenseGroup.findById(groupId);
+        const group = await Group.findById(groupId);
 
         if (!group) {
             return res.status(404).json({
