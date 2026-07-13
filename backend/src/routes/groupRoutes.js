@@ -9,7 +9,7 @@ const {
     getGroups,
     getGroup,
     addMember
-} = require("../controllers/groupController");
+} = require("../controller/groupController");
 
 router.post("/", authMiddleware, createGroup);
 

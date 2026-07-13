@@ -28,6 +28,8 @@ function App() {
       <Route path="/" element={<Navigate to="/login" replace />} />
       <Route path="/register" element={<Register />} />
 
+      <Route path="/groups" element={<Groups />} />
+
       {/* Protected Routes */}
       <Route
     path="/dashboard"

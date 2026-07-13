@@ -5,6 +5,7 @@ import AuthContext from "../context/AuthProvider";
 import { Link } from "react-router-dom";
 import { FaWallet } from "react-icons/fa";
 import { FaUserCircle } from "react-icons/fa";
+import { FaUsers } from "react-icons/fa";
 
 const Navbar = () => {
 
@@ -64,6 +65,14 @@ const handleLogout = async () => {
                         Split Expense
                     </Link>
 
+                     <Link
+                        to="/groups"
+                        className="hover:text-green-400"
+                       
+                    > <FaUsers />
+                        Groups
+                    </Link>
+
                 </div>
 
                 <div className="flex items-center gap-5">
@@ -71,6 +80,7 @@ const handleLogout = async () => {
                     <button
        onClick={() => navigate("/profile")}
        className="flex items-center gap-2 hover:text-blue-600"
+       
      >
             <FaUserCircle size={22} />
              {user?.name}

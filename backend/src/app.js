@@ -21,7 +21,6 @@ app.use(cors({
     ],
     credentials: true
 }));
-app.use("/api/groups", groupRoutes);
 
 
 app.get("/", (req, res) => {
