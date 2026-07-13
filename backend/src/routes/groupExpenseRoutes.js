@@ -17,6 +17,12 @@ router.post(
     addGroupExpense
 );
 
+router.get(
+    "/balances/:groupId",
+    authMiddleware,
+    getGroupBalances
+);
+
 // Get all expenses of a group
 router.get(
     "/:groupId",
@@ -30,10 +36,6 @@ router.delete(
     authMiddleware,
     deleteGroupExpense
 );
-router.get(
-    "/balances/:groupId",
-    authMiddleware,
-    getGroupBalances
-);
+
 
 module.exports = router;
