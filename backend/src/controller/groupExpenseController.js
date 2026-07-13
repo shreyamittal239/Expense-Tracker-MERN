@@ -85,7 +85,10 @@ const addGroupExpense = async(req , res) =>{
 
     }
 
-    const getGroupExpenses = async (req, res) => {
+    
+};
+
+const getGroupExpenses = async (req, res) => {
 
     try {
 
@@ -126,7 +129,6 @@ const addGroupExpense = async(req , res) =>{
 
     }
 
-};
 
 const deleteGroupExpense = async (req, res) => {
 
