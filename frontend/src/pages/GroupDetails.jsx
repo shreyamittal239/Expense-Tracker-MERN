@@ -8,6 +8,7 @@ import {
     FaUserPlus,
     FaReceipt,
 } from "react-icons/fa";
+import AddGroupExpenseModal from "../components/AddGroupExpenseModal";
 
 const GroupDetails = () => {
 
@@ -16,6 +17,9 @@ const GroupDetails = () => {
     const [group, setGroup] = useState(null);
     const [email, setEmail] = useState("");
     const [loading, setLoading] = useState(true);
+    const [showModal, setShowModal] = useState(false);
+
+const [expenses, setExpenses] = useState([]);
 
     const fetchGroup = async () => {
         try {
@@ -64,9 +68,28 @@ const GroupDetails = () => {
 
     };
 
+    const fetchExpenses = async () => {
+
+    try {
+
+        const response = await api.get(
+            `/group-expenses/${id}`
+        );
+
+        setExpenses(response.data.expenses);
+
+    } catch (error) {
+
+        console.log(error.response?.data);
+
+    }
+
+};
+
     useEffect(() => {
 
         fetchGroup();
+        fetchExpenses();
 
     }, []);
 
@@ -250,28 +273,127 @@ const GroupDetails = () => {
 
                         </h2>
 
-                    </div>
+                        <button
+        onClick={() => setShowModal(true)}
+        className="bg-blue-600 text-white px-5 py-2 rounded-lg"
+    >
 
-                    <div className="text-center py-16">
+        + Add Expense
 
-                        <h3 className="text-xl font-semibold text-gray-700">
-
-                            No Shared Expenses Yet
-
-                        </h3>
-
-                        <p className="text-gray-500 mt-2">
-
-                            Shared expenses will appear here once
-                            group members start adding them.
-
-                        </p>
+    </button>
 
                     </div>
+
+                   {expenses.length === 0 ? (
+
+    <div className="text-center py-10 text-gray-500">
+
+        No expenses added yet.
+
+    </div>
+
+) : (
+
+    expenses.map((expense) => (
+
+        <div
+            key={expense._id}
+            className="border rounded-xl p-5 mb-4 shadow-sm"
+        >
+
+            <div className="flex justify-between">
+
+                <div>
+
+                    <h3 className="text-xl font-semibold">
+
+                        {expense.title}
+
+                    </h3>
+
+                    <p className="text-gray-500">
+
+                        {expense.description}
+
+                    </p>
+
+                </div>
+
+                <h2 className="text-2xl font-bold text-red-500">
+
+                    ₹{expense.amount}
+
+                </h2>
+
+            </div>
+
+            <div className="mt-4">
+
+                <p>
+
+                    Paid by
+
+                    <span className="font-semibold">
+
+                        {" "}
+                        {expense.paidBy.name}
+
+                    </span>
+
+                </p>
+
+            </div>
+
+            <div className="mt-3">
+
+                <p className="font-semibold">
+
+                    Split Between
+
+                </p>
+
+                <div className="flex gap-2 flex-wrap mt-2">
+
+                    {expense.participants.map((member) => (
+
+                        <span
+                            key={member._id}
+                            className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full"
+                        >
+
+                            {member.name}
+
+                        </span>
+
+                    ))}
 
                 </div>
 
             </div>
+
+        </div>
+
+    ))
+
+)}
+
+                </div>
+
+            </div>
+
+            {showModal && (
+
+    <AddGroupExpenseModal
+
+        group={group}
+
+        closeModal={() => setShowModal(false)}
+
+        refreshExpenses={fetchExpenses}
+
+    />
+
+)}
 
         </DashBoardLayout>
 

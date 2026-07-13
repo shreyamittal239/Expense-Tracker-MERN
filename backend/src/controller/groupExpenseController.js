@@ -2,7 +2,7 @@ const GroupExpense = require("../models/groupExpense")
 const User  = require("../models/User")
 const Group = require("../models/group")
 
-const addExpense = async(req , res) =>{
+const addGroupExpense = async(req , res) =>{
         try {
 
         const {
