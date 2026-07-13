@@ -91,7 +91,7 @@ const fetchBalances = async () => {
     try {
 
         const response = await api.get(
-            `/group-expenses/balances/${groupId}`
+            `/group-expenses/balances/${id}`
         );
 
         setBalances(response.data.settlements);
@@ -110,7 +110,7 @@ const fetchBalances = async () => {
         fetchExpenses();
          fetchBalances();
 
-    }, []);
+    }, [id]);
 
     if (loading) {
         return (
@@ -479,6 +479,7 @@ className="w-10 h-10 rounded-full"
         closeModal={() => setShowModal(false)}
 
         refreshExpenses={fetchExpenses}
+         refreshBalances={fetchBalances}
 
     />
 
