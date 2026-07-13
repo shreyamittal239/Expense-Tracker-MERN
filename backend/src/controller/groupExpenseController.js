@@ -130,6 +130,9 @@ const getGroupExpenses = async (req, res) => {
     }
 
 
+
+}
+
 const deleteGroupExpense = async (req, res) => {
 
     try {
@@ -167,7 +170,6 @@ const deleteGroupExpense = async (req, res) => {
     }
 
 };
-}
 
 module.exports = {
     addGroupExpense,
