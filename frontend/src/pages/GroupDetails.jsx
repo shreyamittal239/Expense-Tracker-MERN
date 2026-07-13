@@ -398,9 +398,7 @@ const fetchBalances = async () => {
 
                 </div>
 
-            </div>
-
-            <div className="bg-white rounded-xl shadow-md p-6 mt-8">
+                   <div className="bg-white rounded-xl shadow-md p-6 mt-8">
 
     <h2 className="text-2xl font-bold mb-5">
 
@@ -467,6 +465,10 @@ className="w-10 h-10 rounded-full"
     }
 
 </div>
+
+            </div>
+
+         
 
             {showModal && (
 

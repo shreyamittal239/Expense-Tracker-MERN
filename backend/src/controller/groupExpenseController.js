@@ -209,16 +209,21 @@ const getGroupBalances = async (req, res) => {
             const share = expense.amount / expense.participants.length;
 
             // Payer gets full credit
-            balances[expense.paidBy._id] =
-                (balances[expense.paidBy._id] || 0) + expense.amount;
+           const payerId = expense.paidBy._id.toString();
+
+balances[payerId] =
+    (balances[payerId] || 0) + expense.amount;
 
             // Every participant owes equal share
             expense.participants.forEach((member) => {
-                balances[member._id] =
-                    (balances[member._id] || 0) - share;
-            });
+              const memberId = member._id.toString();
 
+balances[memberId] =
+    (balances[memberId] || 0) - share;})
         }
+
+        console.log("Balances:");
+console.log(balances);
 
         // -----------------------------
         // Separate Creditors & Debtors
