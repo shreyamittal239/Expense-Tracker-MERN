@@ -1,6 +1,7 @@
 const GroupExpense = require("../models/groupExpense")
 const User  = require("../models/User")
 const Group = require("../models/group")
+const Settlement = require("../models/settlement")
 
 const addGroupExpense = async(req , res) =>{
         try {
@@ -173,20 +174,17 @@ const deleteGroupExpense = async (req, res) => {
 
 const getGroupBalances = async (req, res) => {
     try {
+        const settlementRecords = await Settlement.find({
+    group: req.params.groupId,
+});
 
-        console.log("========== GET GROUP BALANCES ==========");
+console.log("Settlements:", settlements);
 
-        console.log("Group ID:", req.params.groupId);
-        console.log("Logged In User:", req.user);
-
-        // ---------------------------------------
-        // Check Group
-        // ---------------------------------------
-
+      
         const group = await Group.findById(req.params.groupId)
             .populate("members", "name email");
 
-        console.log("Group Found:", group);
+
 
         if (!group) {
             return res.status(404).json({
@@ -229,13 +227,7 @@ const getGroupBalances = async (req, res) => {
 
         for (const expense of expenses) {
 
-            console.log("--------------------------------");
-            console.log("Expense Title:", expense.title);
-            console.log("Amount:", expense.amount);
-
-            console.log("Paid By:", expense.paidBy);
-
-            console.log("Participants:", expense.participants);
+           
 
             const share =
                 expense.amount / expense.participants.length;
@@ -256,15 +248,29 @@ const getGroupBalances = async (req, res) => {
 
             });
 
-            console.log("Balances After Expense:");
-            console.log(balances);
 
         }
+      
+        for (const settlement of settlements) {
 
-        console.log("================================");
-        console.log("Final Balances:");
-        console.log(balances);
+    const fromId = settlement.from.toString();
 
+    const toId = settlement.to.toString();
+
+    console.log(
+        `${fromId} paid ${toId} ₹${settlement.amount}`
+    );
+
+    // Debtor paid money
+    balances[fromId] =
+        (balances[fromId] || 0) + settlement.amount;
+
+    // Creditor received money
+    balances[toId] =
+        (balances[toId] || 0) - settlement.amount;
+
+}
+       
         // ---------------------------------------
         // Creditors & Debtors
         // ---------------------------------------
@@ -274,7 +280,11 @@ const getGroupBalances = async (req, res) => {
 
         for (const userId in balances) {
 
-            if (balances[userId] > 0) {
+    balances[userId] = Number(
+        balances[userId].toFixed(2)
+    );
+
+            if (balances[userId] > 0.01) {
 
                 creditors.push({
 
@@ -286,7 +296,7 @@ const getGroupBalances = async (req, res) => {
 
             }
 
-            else if (balances[userId] < 0) {
+            else if (balances[userId] < -0.01) {
 
                 debtors.push({
 
@@ -300,11 +310,7 @@ const getGroupBalances = async (req, res) => {
 
         }
 
-        console.log("Creditors:");
-        console.log(creditors);
-
-        console.log("Debtors:");
-        console.log(debtors);
+       
 
         // ---------------------------------------
         // Settlements
@@ -317,13 +323,6 @@ const getGroupBalances = async (req, res) => {
 
         while (i < debtors.length && j < creditors.length) {
 
-            console.log("--------------");
-
-            console.log("Current Debtor:");
-            console.log(debtors[i]);
-
-            console.log("Current Creditor:");
-            console.log(creditors[j]);
 
             const amount = Math.min(
                 debtors[i].amount,
@@ -359,11 +358,11 @@ const getGroupBalances = async (req, res) => {
             console.log("Updated Debtor:", debtors[i]);
             console.log("Updated Creditor:", creditors[j]);
 
-            if (debtors[i].amount === 0) {
+            if (debtors[i].amount <= 0.01) {
                 i++;
             }
 
-            if (creditors[j].amount === 0) {
+            if (creditors[j].amount <= 0.01) {
                 j++;
             }
 
