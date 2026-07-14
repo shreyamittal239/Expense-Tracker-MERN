@@ -10,6 +10,7 @@ const cors = require("cors")
 const budgetRoutes = require("./routes/budgetRoutes");
 const groupRoutes = require("./routes/groupRoutes");
 const groupExpenseRoutes = require("./routes/groupExpenseRoutes");
+const settlementRoutes = require("./routes/settlementRoutes");
 
 const app = express();
 
@@ -36,6 +37,7 @@ app.use("/api/splitExpenses", splitExpenseRoutes);
 app.use("/api/budget", budgetRoutes);
 app.use("/api/groups", groupRoutes);
 app.use("/api/group-expenses", groupExpenseRoutes);
+app.use("/api/settlements", settlementRoutes);
 
 
 module.exports = app;

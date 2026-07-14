@@ -19,8 +19,10 @@ const GroupDetails = () => {
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
     const [balances, setBalances] = useState([]);
-
-const [expenses, setExpenses] = useState([]);
+    const [showSettlementModal, setShowSettlementModal] = useState(false);
+    const [selectedSettlement, setSelectedSettlement] = useState(null);
+    const [expenses, setExpenses] = useState([]);
+    const [settlementHistory, setSettlementHistory] = useState([]);
 
     const fetchGroup = async () => {
         try {
@@ -104,11 +106,38 @@ const fetchBalances = async () => {
 
 };
 
+const openSettlementModal = (balance) => {
+
+    setSelectedSettlement(balance);
+
+    setShowSettlementModal(true);
+
+};
+
+const fetchSettlementHistory = async () => {
+
+    try {
+
+        const response = await api.get(
+            `/settlements/${id}`
+        );
+
+        setSettlementHistory(response.data.settlements);
+
+    } catch (error) {
+
+        console.log(error);
+
+    }
+
+};
+
     useEffect(() => {
 
         fetchGroup();
         fetchExpenses();
-         fetchBalances();
+        fetchBalances();
+        fetchSettlementHistory();
 
     }, [id]);
 
@@ -453,6 +482,13 @@ className="w-10 h-10 rounded-full"
 
                 </span>
 
+                <button
+        onClick={() => openSettlementModal(balance)}
+        className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg"
+    >
+        Settle Up
+    </button>
+
             </div>
 
         ))
@@ -465,6 +501,58 @@ className="w-10 h-10 rounded-full"
 
         </p>
 
+    }
+
+</div>
+
+
+<div className="mt-10">
+
+    <h2 className="text-2xl font-bold mb-4">
+
+        Settlement History
+
+    </h2>
+
+    {
+        settlementHistory.length === 0 ?
+
+        <p>No settlements yet.</p>
+
+        :
+
+        settlementHistory.map((item) => (
+
+            <div
+                key={item._id}
+                className="bg-white rounded-lg shadow p-4 mb-3"
+            >
+
+                <p>
+
+                    <strong>{item.from.name}</strong>
+
+                    paid
+
+                    <strong> {item.to.name}</strong>
+
+                </p>
+
+                <p className="text-green-600 font-semibold">
+
+                    ₹{item.amount}
+
+                </p>
+
+                <small>
+
+                    {new Date(item.createdAt).toLocaleString()}
+
+                </small>
+
+            </div>
+
+        ))
     }
 
 </div>
@@ -487,6 +575,26 @@ className="w-10 h-10 rounded-full"
     />
 
 )}
+
+{
+showSettlementModal && (
+
+<SettlementModal
+
+    settlement={selectedSettlement}
+
+    groupId={id}
+
+    closeModal={() => setShowSettlementModal(false)}
+
+    refreshBalances={fetchBalances}
+
+    refreshHistory={fetchSettlementHistory}
+
+/>
+
+)
+}
 
         </DashBoardLayout>
 
