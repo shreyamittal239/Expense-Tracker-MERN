@@ -130,10 +130,7 @@ useEffect(() => {
                     Edit Expense
                 </h2>
 
-
-            </div>
-
-            <form onSubmit={updateExpense}>
+                 <form onSubmit={updateExpense}>
                 <input
     type="text"
     name="title"
@@ -220,6 +217,11 @@ Save
 </div>
 
 </form>
+
+
+            </div>
+
+           
 
         </div>
 
