@@ -9,6 +9,7 @@ import {
     FaReceipt,
 } from "react-icons/fa";
 import AddGroupExpenseModal from "../components/AddGroupExpenseModal";
+import SettlementModal from "../components/SettlementModel";
 
 const GroupDetails = () => {
 
