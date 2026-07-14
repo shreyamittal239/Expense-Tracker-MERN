@@ -106,9 +106,9 @@ const fetchBalances = async () => {
 
 };
 
-const openSettlementModal = (balance) => {
+const openSettlementModal = (balances) => {
 
-    setSelectedSettlement(balance);
+    setSelectedSettlement(balances);
 
     setShowSettlementModal(true);
 
