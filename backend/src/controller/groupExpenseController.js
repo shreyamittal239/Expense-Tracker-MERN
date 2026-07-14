@@ -179,7 +179,7 @@ const getGroupBalances = async (req, res) => {
     group: req.params.groupId,
 });
 
-console.log("Settlements:", settlements);
+
 
       
         const group = await Group.findById(req.params.groupId)
@@ -252,7 +252,7 @@ console.log("Settlements:", settlements);
 
         }
       
-        for (const settlement of settlements) {
+        for (const settlement of settlementRecords) {
 
     const fromId = settlement.from.toString();
 
