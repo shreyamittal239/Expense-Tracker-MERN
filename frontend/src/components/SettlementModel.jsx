@@ -63,7 +63,7 @@ const SettlementModal = ({
 
                 <p>
 
-                    <strong>{settlement.from.name}</strong>
+                    <strong>{settlement.from.name} </strong>
 
                     will pay
 

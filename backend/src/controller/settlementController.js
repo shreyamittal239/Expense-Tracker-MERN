@@ -1,4 +1,5 @@
 const Settlement = require("../models/settlement")
+const Group = require("../models/group");
 
 const settlePayment = async (req , res ) => {
     try {
