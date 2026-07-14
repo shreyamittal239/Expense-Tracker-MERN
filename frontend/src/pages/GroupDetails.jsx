@@ -106,9 +106,9 @@ const fetchBalances = async () => {
 
 };
 
-const openSettlementModal = (balances) => {
+const openSettlementModal = (item) => {
 
-    setSelectedSettlement(balances);
+    setSelectedSettlement(item);
 
     setShowSettlementModal(true);
 
@@ -449,16 +449,11 @@ const fetchSettlementHistory = async () => {
 
                     <p className="font-semibold">
                         <img
-
-src={item.from.profileImage}
-
-className="w-10 h-10 rounded-full"
-
-/>
-
-                        {item.from.name}
+                        src={item.from.profileImage}
+                        className="w-10 h-10 rounded-full"
+                   />
+                      {item.from.name}
                         <br></br>
-                       
 
                         owes
                        
@@ -475,15 +470,18 @@ className="w-10 h-10 rounded-full"
                     </p>
 
                 </div>
+                
 
                 <span className="text-red-500 font-bold">
 
                     ₹{item.amount.toFixed(2)}
 
                 </span>
+                
+                
 
                 <button
-        onClick={() => openSettlementModal(balance)}
+        onClick={() => openSettlementModal(item)}
         className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg"
     >
         Settle Up
