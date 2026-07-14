@@ -1,4 +1,5 @@
-const Expense = require("../models/expense")
+const Expense = require("../models/expense");
+const { findOne } = require("../models/settlement");
 
 const addExpense = async (req, res) => {
    const {
@@ -134,10 +135,12 @@ const deleteExpense = async (req, res) => {
         });
 };
 
+
 module.exports = {
     addExpense,
     getExpenses,
     getExpense,
     updateExpense,
     deleteExpense,
+   
 };

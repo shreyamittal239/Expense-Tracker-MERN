@@ -10,6 +10,7 @@ import {
 } from "react-icons/fa";
 import AddGroupExpenseModal from "../components/AddGroupExpenseModal";
 import SettlementModal from "../components/SettlementModel";
+import EditGroupExpense from "../components/EditGroupExpense";
 
 const GroupDetails = () => {
 
@@ -24,6 +25,8 @@ const GroupDetails = () => {
     const [selectedSettlement, setSelectedSettlement] = useState(null);
     const [expenses, setExpenses] = useState([]);
     const [settlementHistory, setSettlementHistory] = useState([]);
+    const [isEditOpen, setIsEditOpen] = useState(false);
+    const [editingExpense, setEditingExpense] = useState(null);
 
     const fetchGroup = async () => {
         try {
@@ -140,6 +143,14 @@ const openSettlementModal = (item) => {
     setSelectedSettlement(item);
 
     setShowSettlementModal(true);
+
+};
+
+const openEditModal = (expense) => {
+
+    setEditingExpense(expense);
+
+    setIsEditOpen(true);
 
 };
 
@@ -445,14 +456,23 @@ const fetchSettlementHistory = async () => {
                         </span>
 
                     ))}
-                     <button
+                    
+
+                </div>
+
+                <button
+    onClick={() => openEditModal(expense)}
+    className="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-2 rounded-lg"
+>
+    Edit
+</button>
+
+ <button
     onClick={() => deleteExpense(expense._id)}
     className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
 >
     Delete
 </button>
-
-                </div>
 
             </div>
 
@@ -629,6 +649,24 @@ showSettlementModal && (
 />
 
 )
+}
+
+{
+    isEditOpen && (
+
+        <EditGroupExpense
+
+            expense={editingExpense}
+             members={group.members}
+            onClose={closeEditModal}
+
+            fetchExpenses={fetchExpenses}
+
+            fetchBalances={fetchBalances}
+
+        />
+
+    )
 }
 
         </DashBoardLayout>

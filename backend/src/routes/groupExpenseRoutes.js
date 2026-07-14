@@ -7,8 +7,10 @@ const {
     addGroupExpense,
     getGroupExpenses,
     deleteGroupExpense,
-    getGroupBalances
+    getGroupBalances,
+    updateGroupExpense
 } = require("../controller/groupExpenseController");
+const { updateGroupExpense } = require("../controller/expenseController");
 
 // Add a new group expense
 router.post(
@@ -35,6 +37,11 @@ router.delete(
     "/:id",
     authMiddleware,
     deleteGroupExpense
+);
+
+router.put( "/:id",
+    authMiddleware,
+    updateGroupExpense
 );
 
 

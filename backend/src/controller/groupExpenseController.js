@@ -1,7 +1,8 @@
 const GroupExpense = require("../models/groupExpense")
 const User  = require("../models/User")
 const Group = require("../models/group")
-const Settlement = require("../models/settlement")
+const Settlement = require("../models/settlement");
+const { createHorizontalChart } = require("recharts");
 
 const addGroupExpense = async(req , res) =>{
         try {
@@ -398,9 +399,83 @@ console.log("Settlements:", settlements);
     }
 };
 
+const updateGroupExpense = async (req , res) => {
+    try {
+
+        const  {
+            title,
+            amount,
+            paidBy,
+            participants,
+            description,
+        } = req.body;
+
+         const expense = await GroupExpense.findById(req.params.id);
+
+        if (!expense) {
+
+            return res.status(404).json({
+                success: false,
+                message: "Expense not found.",
+            });
+    }  
+
+    if ( expense.paidBy.toString() !== req.user.id){
+        return res.status(403).json ( {
+            success : false ,
+            message : "Only the payer can update this expense." ,
+        })
+    }
+
+    const updatedExpense = await GroupExpense.findByIdAndUpdate(req.params.id,
+        {
+        title ,
+        amount,
+        paidBy,
+        participants,
+        description,
+        } ,
+        {
+            new:true,
+            runValidators: true,
+        }
+    )
+
+    if (
+    !title ||
+    !amount ||
+    !paidBy ||
+    !participants ||
+    participants.length === 0
+) {
+    return res.status(400).json({
+        success: false,
+        message: "Please fill all required fields.",
+    });
+}
+
+return res.status(200).json({
+    success: true,
+    message: "Expense updated successfully.",
+    expense: updatedExpense,
+});
+
+    
+} catch
+(error) {
+
+        return res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+
+    }
+}
+
 module.exports = {
     addGroupExpense,
     getGroupExpenses,
     deleteGroupExpense,
-    getGroupBalances
+    getGroupBalances,
+    updateGroupExpense
 };
