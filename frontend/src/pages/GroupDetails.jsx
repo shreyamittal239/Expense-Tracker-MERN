@@ -72,6 +72,34 @@ const GroupDetails = () => {
 
     };
 
+    const deleteExpense = async (expenseId) => {
+
+         const confirmDelete = window.confirm(
+        "Are you sure you want to delete this expense?"
+    );
+
+    if (!confirmDelete) return;
+
+    try {
+
+        const response = await api.delete(
+            `/group-expenses/${expenseId}`
+        );
+
+        alert(response.data.message);
+
+        fetchExpenses();
+
+        fetchBalances();
+
+    } catch (error) {
+
+        alert(error.response?.data?.message);
+
+    }
+
+};
+
     const fetchExpenses = async () => {
 
     try {
@@ -330,6 +358,13 @@ const fetchSettlementHistory = async () => {
         + Add Expense
 
     </button>
+
+    <button
+    onClick={() => deleteExpense(expense._id)}
+    className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
+>
+    Delete
+</button>
 
                     </div>
 
