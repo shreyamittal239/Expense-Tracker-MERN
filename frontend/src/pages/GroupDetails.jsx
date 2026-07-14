@@ -28,6 +28,7 @@ const GroupDetails = () => {
     const [isEditOpen, setIsEditOpen] = useState(false);
     const [editingExpense, setEditingExpense] = useState(null);
 
+
     const fetchGroup = async () => {
         try {
 
@@ -169,6 +170,14 @@ const fetchSettlementHistory = async () => {
         console.log(error);
 
     }
+
+};
+
+const closeEditModal = () => {
+
+    setEditingExpense(null);
+
+    setIsEditOpen(false);
 
 };
 
