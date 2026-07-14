@@ -10,7 +10,7 @@ const {
     getGroupBalances,
     updateGroupExpense
 } = require("../controller/groupExpenseController");
-const { updateGroupExpense } = require("../controller/expenseController");
+
 
 // Add a new group expense
 router.post(
