@@ -344,10 +344,10 @@ className="bg-white rounded-xl shadow p-5 text-center hover:shadow-lg transition
 >
 
  {
-        item.from.profileImage ?
+        member.profileImage ?
 
          <img
-           src={item.from.profileImage}
+           src={member.profileImage}
             className="w-12 h-12 rounded-full object-cover border-2 border-red-300"
          />
 
@@ -355,7 +355,7 @@ className="bg-white rounded-xl shadow p-5 text-center hover:shadow-lg transition
 
           <div className="w-12 h-12 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold">
 
-          {item.from.name.charAt(0)}
+          {member.name.charAt(0)}
 
           </div>
 
@@ -500,10 +500,10 @@ className="bg-white rounded-xl shadow p-5 text-center hover:shadow-lg transition
 
                  {
 
-                                        item.from.profileImage ?
+                                        expense.paidBy.profileImage ?
 
                                         <img
-                                            src={item.from.profileImage}
+                                            src={expense.paidBy.profileImage}
                                             className="w-12 h-12 rounded-full object-cover border-2 border-red-300"
                                         />
 
@@ -511,7 +511,7 @@ className="bg-white rounded-xl shadow p-5 text-center hover:shadow-lg transition
 
                                         <div className="w-12 h-12 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold">
 
-                                            {item.from.name.charAt(0)}
+                                            {expense.paidBy.name.charAt(0)}
 
                                         </div>
 
@@ -554,10 +554,10 @@ className="bg-white rounded-xl shadow p-5 text-center hover:shadow-lg transition
 
                             {
 
-                                        item.from.profileImage ?
+                                        member.profileImage ?
 
                                         <img
-                                            src={item.from.profileImage}
+                                            src={member.profileImage}
                                             className="w-12 h-12 rounded-full object-cover border-2 border-red-300"
                                         />
 
@@ -565,7 +565,7 @@ className="bg-white rounded-xl shadow p-5 text-center hover:shadow-lg transition
 
                                         <div className="w-12 h-12 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold">
 
-                                            {item.from.name.charAt(0)}
+                                            {member.name.charAt(0)}
 
                                         </div>
 

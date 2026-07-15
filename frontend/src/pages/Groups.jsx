@@ -81,37 +81,94 @@ const Groups = () => {
 
     </div>
             
-                    <h2 className="text-xl font-semibold mb-4">
-                        Create New Group
-                    </h2>
-
-                    <input
-                        type="text"
-                        placeholder="Group Name"
-                        value={groupName}
-                        onChange={(e) =>
-                            setGroupName(e.target.value)
-                        }
-                        className="border p-3 rounded-lg w-full mb-4"
-                    />
-
-                    <textarea
-                        placeholder="Description"
-                        value={description}
-                        onChange={(e) =>
-                            setDescription(e.target.value)
-                        }
-                        className="border p-3 rounded-lg w-full mb-4"
-                    />
-
-                    <button
-                        onClick={createGroup}
-                        className="bg-blue-600 text-white px-5 py-3 rounded-lg"
-                    >
-                        Create Group
-                    </button>
 
                 </div>
+
+                <div className="bg-white rounded-3xl shadow-xl p-8 mb-10 border border-gray-100">
+
+    <div className="flex items-center gap-3 mb-6">
+
+        <div className="bg-indigo-100 p-3 rounded-2xl">
+
+            👥
+
+        </div>
+
+        <div>
+
+            <h2 className="text-3xl font-bold text-gray-800">
+
+                Create New Group
+
+            </h2>
+
+            <p className="text-gray-500">
+
+                Create a group to start splitting expenses with friends.
+
+            </p>
+
+        </div>
+
+    </div>
+
+    {/* Group Name */}
+
+    <div className="mb-5">
+
+        <label className="block text-gray-700 font-semibold mb-2">
+
+            Group Name
+
+        </label>
+
+        <input
+            type="text"
+            placeholder="e.g. Goa Trip"
+            value={groupName}
+            onChange={(e) => setGroupName(e.target.value)}
+            className="w-full border border-gray-300 rounded-xl p-4 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition"
+        />
+
+    </div>
+
+    {/* Description */}
+
+    <div className="mb-6">
+
+        <label className="block text-gray-700 font-semibold mb-2">
+
+            Description
+
+        </label>
+
+        <textarea
+            rows={4}
+            placeholder="Describe your group..."
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            className="w-full border border-gray-300 rounded-xl p-4 resize-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition"
+        />
+
+    </div>
+
+    {/* Button */}
+
+    <div className="flex justify-end">
+
+        <button
+            onClick={createGroup}
+            className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white px-8 py-3 rounded-xl font-semibold shadow-lg transition-all duration-300 hover:scale-105"
+        >
+
+            ➕ Create Group
+
+        </button>
+
+    </div>
+
+</div>
+
 
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
 
