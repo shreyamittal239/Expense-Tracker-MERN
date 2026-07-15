@@ -345,7 +345,7 @@ className="bg-white rounded-xl shadow p-5 text-center hover:shadow-lg transition
 
 <img
 
-src={member.profileImage}
+src={member.profileImage || "/default-avatar.png"}
 
 className="w-16 h-16 rounded-full mx-auto border-4 border-indigo-100"
 />
@@ -488,7 +488,7 @@ className="w-16 h-16 rounded-full mx-auto border-4 border-indigo-100"
             <div className="mt-5 flex items-center gap-3">
 
                 <img
-                    src={expense.paidBy.profileImage}
+                    src={expense.paidBy.profileImage || "/default-avatar.png"}
                     className="w-10 h-10 rounded-full border"
                 />
 
@@ -528,7 +528,7 @@ className="w-16 h-16 rounded-full mx-auto border-4 border-indigo-100"
                         >
 
                             <img
-                                src={member.profileImage}
+                                src={member.profileImage || "/default-avatar.png"}
                                 className="w-8 h-8 rounded-full"
                             />
 
@@ -778,53 +778,204 @@ className="w-16 h-16 rounded-full mx-auto border-4 border-indigo-100"
 </div>
 
 
-<div className="mt-10">
+<div className="bg-white rounded-3xl shadow-lg p-8 mt-10">
 
-    <h2 className="text-2xl font-bold mb-4">
+    {/* Heading */}
 
-        Settlement History
+    <div className="flex justify-between items-center mb-8">
 
-    </h2>
+        <div>
+
+            <h2 className="text-3xl font-bold text-gray-800 flex items-center gap-3">
+
+                📜 Settlement History
+
+            </h2>
+
+            <p className="text-gray-500 mt-2">
+
+                View all completed settlements in this group.
+
+            </p>
+
+        </div>
+
+        <div className="bg-green-100 text-green-700 px-5 py-2 rounded-full font-semibold">
+
+            {settlementHistory.length} Completed
+
+        </div>
+
+    </div>
 
     {
+
         settlementHistory.length === 0 ?
 
-        <p>No settlements yet.</p>
+        <div className="bg-gray-50 rounded-2xl p-10 text-center">
 
-        :
+            <div className="text-6xl mb-4">
 
-        settlementHistory.map((item) => (
-
-            <div
-                key={item._id}
-                className="bg-white rounded-lg shadow p-4 mb-3"
-            >
-
-                <p>
-
-                    <strong>{item.from.name}</strong>
-
-                    paid
-
-                    <strong> {item.to.name}</strong>
-
-                </p>
-
-                <p className="text-green-600 font-semibold">
-
-                    ₹{item.amount}
-
-                </p>
-
-                <small>
-
-                    {new Date(item.createdAt).toLocaleString()}
-
-                </small>
+                📭
 
             </div>
 
-        ))
+            <h3 className="text-2xl font-bold text-gray-700">
+
+                No Settlements Yet
+
+            </h3>
+
+            <p className="text-gray-500 mt-2">
+
+                Completed settlements will appear here.
+
+            </p>
+
+        </div>
+
+        :
+
+        <div className="space-y-5">
+
+            {
+
+                settlementHistory.map((item) => (
+
+                    <div
+                        key={item._id}
+                        className="bg-gray-50 rounded-2xl border border-gray-200 p-6 hover:shadow-lg transition-all duration-300"
+                    >
+
+                        <div className="flex justify-between items-center">
+
+                            {/* Left */}
+
+                            <div className="flex items-center gap-6">
+
+                                {/* From */}
+
+                                <div className="flex items-center gap-3">
+
+                                    {
+
+                                        item.from.profileImage ?
+
+                                        <img
+                                            src={item.from.profileImage}
+                                            className="w-12 h-12 rounded-full object-cover border-2 border-red-300"
+                                        />
+
+                                        :
+
+                                        <div className="w-12 h-12 rounded-full bg-red-500 text-white flex items-center justify-center font-bold">
+
+                                            {item.from.name.charAt(0)}
+
+                                        </div>
+
+                                    }
+
+                                    <div>
+
+                                        <h3 className="font-semibold">
+
+                                            {item.from.name}
+
+                                        </h3>
+
+                                        <p className="text-red-500 text-sm">
+
+                                            Paid
+
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                                {/* Arrow */}
+
+                                <div className="text-2xl text-gray-400">
+
+                                    →
+
+                                </div>
+
+                                {/* To */}
+
+                                <div className="flex items-center gap-3">
+
+                                    {
+
+                                        item.to.profileImage ?
+
+                                        <img
+                                            src={item.to.profileImage}
+                                            className="w-12 h-12 rounded-full object-cover border-2 border-green-300"
+                                        />
+
+                                        :
+
+                                        <div className="w-12 h-12 rounded-full bg-green-500 text-white flex items-center justify-center font-bold">
+
+                                            {item.to.name.charAt(0)}
+
+                                        </div>
+
+                                    }
+
+                                    <div>
+
+                                        <h3 className="font-semibold">
+
+                                            {item.to.name}
+
+                                        </h3>
+
+                                        <p className="text-green-600 text-sm">
+
+                                            Received
+
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            {/* Right */}
+
+                            <div className="text-right">
+
+                                <h2 className="text-2xl font-bold text-green-600">
+
+                                    ₹{item.amount.toFixed(2)}
+
+                                </h2>
+
+                                <p className="text-sm text-gray-500 mt-1">
+
+                                    {new Date(item.createdAt).toLocaleDateString()} <br />
+                                    {new Date(item.createdAt).toLocaleTimeString([], {
+                                        hour: "2-digit",
+                                        minute: "2-digit",
+                                    })}
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                ))
+
+            }
+
+        </div>
+
     }
 
 </div>
