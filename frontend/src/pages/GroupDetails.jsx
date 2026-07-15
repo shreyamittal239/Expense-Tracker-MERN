@@ -577,13 +577,7 @@ className="w-16 h-16 rounded-full mx-auto border-4 border-indigo-100"
 
 💸 Pending Settlements
 
-</h2>
-
-<span className="bg-red-100 text-red-600 px-4 py-2 rounded-full font-semibold">
-
-{balances.length} Pending
-
-</span>
+</h2> 
 
  <div className="space-y-5">
 
@@ -685,6 +679,14 @@ className="w-16 h-16 rounded-full mx-auto border-4 border-indigo-100"
     ))}
 
 </div>
+
+<span className="bg-red-100 text-red-600 px-4 py-2 rounded-full font-semibold">
+
+{balances.length} Pending
+
+</span>
+
+
 
 </div>
 
