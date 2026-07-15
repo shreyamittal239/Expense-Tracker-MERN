@@ -343,12 +343,23 @@ key={member._id}
 className="bg-white rounded-xl shadow p-5 text-center hover:shadow-lg transition"
 >
 
-<img
+ {
+        item.from.profileImage ?
 
-src={member.profileImage || "/default-avatar.png"}
+         <img
+           src={item.from.profileImage}
+            className="w-12 h-12 rounded-full object-cover border-2 border-red-300"
+         />
 
-className="w-16 h-16 rounded-full mx-auto border-4 border-indigo-100"
-/>
+               :
+
+          <div className="w-12 h-12 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold">
+
+          {item.from.name.charAt(0)}
+
+          </div>
+
+          }
 
 <h2 className="mt-3 font-bold">
 
@@ -487,10 +498,24 @@ className="w-16 h-16 rounded-full mx-auto border-4 border-indigo-100"
 
             <div className="mt-5 flex items-center gap-3">
 
-                <img
-                    src={expense.paidBy.profileImage || "/default-avatar.png"}
-                    className="w-10 h-10 rounded-full border"
-                />
+                 {
+
+                                        item.from.profileImage ?
+
+                                        <img
+                                            src={item.from.profileImage}
+                                            className="w-12 h-12 rounded-full object-cover border-2 border-red-300"
+                                        />
+
+                                        :
+
+                                        <div className="w-12 h-12 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold">
+
+                                            {item.from.name.charAt(0)}
+
+                                        </div>
+
+                                    }
 
                 <div>
 
@@ -527,10 +552,24 @@ className="w-16 h-16 rounded-full mx-auto border-4 border-indigo-100"
                             className="flex items-center gap-2 bg-gray-100 rounded-full px-3 py-2"
                         >
 
-                            <img
-                                src={member.profileImage || "/default-avatar.png"}
-                                className="w-8 h-8 rounded-full"
-                            />
+                            {
+
+                                        item.from.profileImage ?
+
+                                        <img
+                                            src={item.from.profileImage}
+                                            className="w-12 h-12 rounded-full object-cover border-2 border-red-300"
+                                        />
+
+                                        :
+
+                                        <div className="w-12 h-12 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold">
+
+                                            {item.from.name.charAt(0)}
+
+                                        </div>
+
+                                    }
 
                             <span>
 

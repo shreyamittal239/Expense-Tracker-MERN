@@ -62,15 +62,25 @@ const Groups = () => {
     return (
 
         <DashBoardLayout>
+         
+          <div className="flex flex-col md:flex-row justify-between items-center mb-10">
 
-            <div className="max-w-5xl mx-auto p-8">
+    <div>
 
-                <h1 className="text-4xl font-bold mb-8">
-                    My Groups
-                </h1>
+        <h1 className="text-4xl font-bold text-gray-800">
 
-                <div className="bg-white shadow-lg rounded-xl p-6 mb-8">
+            👥 My Groups
 
+        </h1>
+
+        <p className="text-gray-500 mt-2">
+
+            Manage all your shared expense groups in one place.
+
+        </p>
+
+    </div>
+            
                     <h2 className="text-xl font-semibold mb-4">
                         Create New Group
                     </h2>
@@ -103,47 +113,104 @@ const Groups = () => {
 
                 </div>
 
-                <div className="space-y-5">
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
 
-                    {groups.map((group) => (
+{groups.map(group=>(
 
-                        <div
-                            key={group._id}
-                            className="bg-white rounded-xl shadow-md p-5 flex justify-between items-center"
-                        >
+<div
+key={group._id}
+className="bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 border border-gray-100 hover:-translate-y-1"
+>
 
-                            <div>
+<div className="flex justify-between">
 
-                                <h2 className="text-xl font-bold">
-                                    {group.name}
-                                </h2>
+<div>
 
-                                <p className="text-gray-500">
-                                    {group.description}
-                                </p>
+<h2 className="text-2xl font-bold">
 
-                                <p className="text-sm text-gray-400 mt-2">
-                                    Members : {group.members.length}
-                                </p>
+🏖 {group.name}
 
-                            </div>
+</h2>
 
-                            <button
-                                onClick={() =>
-                                    navigate(`/groups/${group._id}`)
-                                }
-                                className="bg-green-600 text-white px-5 py-2 rounded-lg"
-                            >
-                                Open
-                            </button>
+<p className="text-gray-500 mt-2">
 
-                        </div>
+{group.description}
 
-                    ))}
+</p>
 
-                </div>
+</div>
 
-            </div>
+<div>
+
+<span className="bg-indigo-100 text-indigo-600 px-3 py-1 rounded-full text-sm">
+
+Group
+
+</span>
+
+</div>
+
+</div>
+
+<div className="border-t my-6"></div>
+
+<div className="space-y-3">
+
+<div className="flex justify-between">
+
+<span className="text-gray-500">
+
+👥 Members
+
+</span>
+
+<span className="font-bold">
+
+{group.members.length}
+
+</span>
+
+</div>
+
+<div className="flex justify-between">
+
+<span className="text-gray-500">
+
+📅 Created
+
+</span>
+
+<span>
+
+{new Date(group.createdAt).toLocaleDateString()}
+
+</span>
+
+</div>
+
+</div>
+
+<button
+
+onClick={()=>navigate(`/groups/${group._id}`)}
+
+className="mt-6 w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-xl font-semibold transition"
+
+>
+
+View Group →
+
+</button>
+
+</div>
+
+))}
+
+</div>
+
+                   
+
+            
 
         </DashBoardLayout>
 
