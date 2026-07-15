@@ -571,120 +571,120 @@ className="w-16 h-16 rounded-full mx-auto border-4 border-indigo-100"
 )}
 
                 </div>
+      <div className="flex items-center justify-between mb-6">
 
-                   <div className="bg-white rounded-xl shadow-md p-6 mt-8">
+<h2 className="text-3xl font-bold text-gray-800">
 
-    <h2 className="text-2xl font-bold mb-5">
-
-        Group Balances
-
-    </h2>
-
-    {
-        balances.length > 0 ?
-
-        balances.map((item,index)=>(
-
-            <div
-                key={index}
-                className="flex justify-between items-center border-b py-4"
-            >
-
-               <div className="bg-white rounded-2xl shadow p-5">
-
-<div className="flex justify-between">
-
-<div className="flex items-center gap-4">
-
-<img
-src={item.from.profileImage}
-className="w-12 h-12 rounded-full"
-/>
-
-<div>
-
-<h2 className="font-bold">
-
-{item.from.name}
+💸 Pending Settlements
 
 </h2>
 
-<p className="text-gray-500">
+<span className="bg-red-100 text-red-600 px-4 py-2 rounded-full font-semibold">
 
-owes
-
-</p>
-
-</div>
-
-</div>
-
-<div className="flex items-center">
-
-➡️
-
-</div>
-
-<div className="flex items-center gap-4">
-
-<img
-src={item.to.profileImage}
-className="w-12 h-12 rounded-full"
-/>
-
-<div>
-
-<h2 className="font-bold">
-
-{item.to.name}
-
-</h2>
-
-<p className="text-green-600">
-
-Receives
-
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-<div className="flex justify-between mt-5">
-
-<span className="text-2xl font-bold text-red-500">
-
-₹{item.amount}
+{balances.length} Pending
 
 </span>
 
-<button
-className="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-xl"
->
+ <div className="space-y-5">
 
-💸 Settle Up
+    {balances.map((item, index) => (
 
-</button>
+        <div
+            key={index}
+            className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-gray-100"
+        >
 
-</div>
+            <div className="flex items-center justify-between">
 
-</div>
+                {/* From User */}
+                <div className="flex items-center gap-3">
+
+                    <img
+                        src={item.from.profileImage}
+                        alt=""
+                        className="w-14 h-14 rounded-full border-2 border-red-200"
+                    />
+
+                    <div>
+
+                        <p className="font-bold text-gray-800">
+                            {item.from.name}
+                        </p>
+
+                        <p className="text-sm text-red-500">
+                            Owes Money
+                        </p>
+
+                    </div>
+
+                </div>
+
+                {/* Arrow */}
+
+                <div className="text-3xl text-gray-400">
+
+                    →
+
+                </div>
+
+                {/* To User */}
+
+                <div className="flex items-center gap-3">
+
+                    <img
+                        src={item.to.profileImage}
+                        alt=""
+                        className="w-14 h-14 rounded-full border-2 border-green-200"
+                    />
+
+                    <div>
+
+                        <p className="font-bold text-gray-800">
+                            {item.to.name}
+                        </p>
+
+                        <p className="text-sm text-green-600">
+                            Gets Money
+                        </p>
+
+                    </div>
+
+                </div>
 
             </div>
 
-        ))
+            <div className="mt-6 flex justify-between items-center">
 
-        :
+                <div>
 
-        <p className="text-gray-500">
+                    <p className="text-gray-500 text-sm">
+                        Amount
+                    </p>
 
-            Everyone is settled up 🎉
+                    <h2 className="text-3xl font-bold text-red-500">
 
-        </p>
+                        ₹{item.amount.toFixed(2)}
 
-    }
+                    </h2>
+
+                </div>
+
+                <button
+                    onClick={() => openSettlementModal(item)}
+                    className="bg-green-600 hover:bg-green-700 px-6 py-3 rounded-xl text-white font-semibold transition"
+                >
+
+                    💸 Settle Up
+
+                </button>
+
+            </div>
+
+        </div>
+
+    ))}
+
+</div>
 
 </div>
 
