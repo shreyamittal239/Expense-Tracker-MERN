@@ -320,23 +320,6 @@ const totalExpense = expenses.reduce(
 
 </div>
 
-                        <div className="text-center">
-
-                            <FaUsers
-                                size={45}
-                                className="mx-auto text-blue-600"
-                            />
-
-                            <p className="font-bold mt-2">
-                                {group.members.length}
-                            </p>
-
-                            <p className="text-gray-500 text-sm">
-                                Members
-                            </p>
-
-                        </div>
-
                     </div>
 
                 </div>
@@ -350,47 +333,40 @@ const totalExpense = expenses.reduce(
                         Members
 
                     </h2>
+                 
+                 <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
 
-                    <div className="space-y-5">
+{group.members.map(member => (
 
-                        {group.members.map((member) => (
+<div
+key={member._id}
+className="bg-white rounded-xl shadow p-5 text-center hover:shadow-lg transition"
+>
 
-                            <div
-                                key={member._id}
-                                className="flex items-center justify-between border rounded-xl p-4"
-                            >
+<img
 
-                                <div className="flex items-center gap-4">
+src={member.profileImage}
 
-                                    <img
-                                        src={
-                                            member.profileImage
-                                                ? member.profileImage
-                                                : `https://ui-avatars.com/api/?name=${member.name}&background=2563eb&color=fff`
-                                        }
-                                        alt={member.name}
-                                        className="w-14 h-14 rounded-full object-cover"
-                                    />
+className="w-16 h-16 rounded-full mx-auto border-4 border-indigo-100"
+/>
 
-                                    <div>
+<h2 className="mt-3 font-bold">
 
-                                        <h3 className="font-semibold text-lg">
-                                            {member.name}
-                                        </h3>
+{member.name}
 
-                                        <p className="text-gray-500 text-sm">
-                                            {member.email}
-                                        </p>
+</h2>
 
-                                    </div>
+<p className="text-gray-500 text-sm">
 
-                                </div>
+{member.email}
 
-                            </div>
+</p>
 
-                        ))}
+</div>
 
-                    </div>
+))}
+
+</div>
 
                 </div>
 
@@ -474,24 +450,26 @@ const totalExpense = expenses.reduce(
 
 ) : (
 
-    expenses.map((expense) => (
+    <div className="space-y-5 mt-8">
+
+    {expenses.map((expense) => (
 
         <div
             key={expense._id}
-            className="border rounded-xl p-5 mb-4 shadow-sm"
+            className="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 p-6 border"
         >
 
-            <div className="flex justify-between">
+            <div className="flex justify-between items-start">
 
                 <div>
 
-                    <h3 className="text-xl font-semibold">
+                    <h2 className="text-xl font-bold text-gray-800">
 
-                        {expense.title}
+                        🍕 {expense.title}
 
-                    </h3>
+                    </h2>
 
-                    <p className="text-gray-500">
+                    <p className="text-gray-500 mt-1">
 
                         {expense.description}
 
@@ -499,76 +477,96 @@ const totalExpense = expenses.reduce(
 
                 </div>
 
-                <h2 className="text-2xl font-bold text-red-500">
+                <div className="text-2xl font-bold text-indigo-600">
 
                     ₹{expense.amount}
 
-                </h2>
+                </div>
 
             </div>
 
-            <div className="mt-4">
+            <div className="mt-5 flex items-center gap-3">
 
-                <p>
+                <img
+                    src={expense.paidBy.profileImage}
+                    className="w-10 h-10 rounded-full border"
+                />
 
-                    Paid by
+                <div>
 
-                    <span className="font-semibold">
+                    <p className="font-semibold">
 
-                        {" "}
+                        Paid by
+
+                    </p>
+
+                    <p className="text-gray-500">
+
                         {expense.paidBy.name}
 
-                    </span>
-
-                </p>
-
-            </div>
-
-            <div className="mt-3">
-
-                <p className="font-semibold">
-
-                    Split Between
-
-                </p>
-
-                <div className="flex gap-2 flex-wrap mt-2">
-
-                    {expense.participants.map((member) => (
-
-                        <span
-                            key={member._id}
-                            className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full"
-                        >
-
-                            {member.name}
-
-                        </span>
-
-                    ))}
-                    
+                    </p>
 
                 </div>
 
-                <button
-    onClick={() => openEditModal(expense)}
-    className="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-2 rounded-lg"
->
-    Edit
-</button>
+            </div>
 
- <button
-    onClick={() => deleteExpense(expense._id)}
-    className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
->
-    Delete
-</button>
+            <div className="mt-5">
+
+                <p className="font-semibold mb-3">
+
+                    Participants
+
+                </p>
+
+                <div className="flex flex-wrap gap-3">
+
+                    {expense.participants.map((member) => (
+
+                        <div
+                            key={member._id}
+                            className="flex items-center gap-2 bg-gray-100 rounded-full px-3 py-2"
+                        >
+
+                            <img
+                                src={member.profileImage}
+                                className="w-8 h-8 rounded-full"
+                            />
+
+                            <span>
+
+                                {member.name}
+
+                            </span>
+
+                        </div>
+
+                    ))}
+
+                </div>
+
+            </div>
+
+            <div className="flex justify-end gap-3 mt-6">
+
+                <button
+                    className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-xl"
+                >
+                    ✏ Edit
+                </button>
+
+                <button
+                    className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-xl"
+                >
+                    🗑 Delete
+                </button>
 
             </div>
 
         </div>
 
-    ))
+    ))}
+
+</div>
 
 )}
 
@@ -592,47 +590,87 @@ const totalExpense = expenses.reduce(
                 className="flex justify-between items-center border-b py-4"
             >
 
-                <div>
+               <div className="bg-white rounded-2xl shadow p-5">
 
-                    <p className="font-semibold">
-                        <img
-                        src={item.from.profileImage}
-                        className="w-10 h-10 rounded-full"
-                   />
-                      {item.from.name}
-                        <br></br>
+<div className="flex justify-between">
 
-                        owes
-                       
+<div className="flex items-center gap-4">
 
 <img
-
-src={item.to.profileImage}
-
-className="w-10 h-10 rounded-full"
-
+src={item.from.profileImage}
+className="w-12 h-12 rounded-full"
 />
-                        {item.to.name}
 
-                    </p>
+<div>
 
-                </div>
-                
+<h2 className="font-bold">
 
-                <span className="text-red-500 font-bold">
+{item.from.name}
 
-                    ₹{item.amount.toFixed(2)}
+</h2>
 
-                </span>
-                
-                
+<p className="text-gray-500">
 
-                <button
-        onClick={() => openSettlementModal(item)}
-        className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg"
-    >
-        Settle Up
-    </button>
+owes
+
+</p>
+
+</div>
+
+</div>
+
+<div className="flex items-center">
+
+➡️
+
+</div>
+
+<div className="flex items-center gap-4">
+
+<img
+src={item.to.profileImage}
+className="w-12 h-12 rounded-full"
+/>
+
+<div>
+
+<h2 className="font-bold">
+
+{item.to.name}
+
+</h2>
+
+<p className="text-green-600">
+
+Receives
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div className="flex justify-between mt-5">
+
+<span className="text-2xl font-bold text-red-500">
+
+₹{item.amount}
+
+</span>
+
+<button
+className="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-xl"
+>
+
+💸 Settle Up
+
+</button>
+
+</div>
+
+</div>
 
             </div>
 
