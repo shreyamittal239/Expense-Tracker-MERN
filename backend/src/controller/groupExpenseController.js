@@ -180,8 +180,6 @@ const getGroupBalances = async (req, res) => {
 });
 
 
-
-      
         const group = await Group.findById(req.params.groupId)
             .populate("members", "name email");
 

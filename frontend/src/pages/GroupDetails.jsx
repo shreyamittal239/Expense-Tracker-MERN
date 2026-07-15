@@ -181,6 +181,14 @@ const closeEditModal = () => {
 
 };
 
+const totalExpense = expenses.reduce(
+
+    (total, expense) => total + expense.amount,
+
+    0
+
+);
+
     useEffect(() => {
 
         fetchGroup();
@@ -222,22 +230,95 @@ const closeEditModal = () => {
 
                     <div className="flex justify-between items-center">
 
-                        <div>
+                       <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 rounded-3xl p-8 text-white shadow-xl">
 
-                            <h1 className="text-4xl font-bold">
-                                {group.name}
-                            </h1>
+    <h1 className="text-4xl font-bold">
 
-                            <p className="text-gray-500 mt-3">
-                                {group.description || "No description added."}
-                            </p>
+        {group.name}
 
-                            <p className="text-sm text-gray-400 mt-4">
-                                Created on{" "}
-                                {new Date(group.createdAt).toLocaleDateString()}
-                            </p>
+    </h1>
 
-                        </div>
+    <p className="text-indigo-100 mt-2">
+
+        {group.description}
+
+    </p>
+
+    <div className="flex gap-8 mt-6">
+
+        <div>
+
+            👥 {group.members.length} Members
+
+        </div>
+
+        <div>
+
+            💰 ₹{totalExpense}
+
+        </div>
+
+        <div>
+
+            🧾 {expenses.length} Expenses
+
+        </div>
+
+    </div>
+
+</div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-4 gap-5 mt-8">
+
+    <div className="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-all">
+
+        <p className="text-gray-500 text-sm">
+            Total Expense
+        </p>
+
+        <h2 className="text-3xl font-bold text-indigo-600 mt-2">
+            ₹{totalExpense}
+        </h2>
+
+    </div>
+
+    <div className="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-all">
+
+        <p className="text-gray-500 text-sm">
+            Members
+        </p>
+
+        <h2 className="text-3xl font-bold text-green-600 mt-2">
+            {group.members.length}
+        </h2>
+
+    </div>
+
+    <div className="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-all">
+
+        <p className="text-gray-500 text-sm">
+            Expenses
+        </p>
+
+        <h2 className="text-3xl font-bold text-orange-500 mt-2">
+            {expenses.length}
+        </h2>
+
+    </div>
+
+    <div className="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-all">
+
+        <p className="text-gray-500 text-sm">
+            Pending Settlements
+        </p>
+
+        <h2 className="text-3xl font-bold text-red-500 mt-2">
+            {balances.length}
+        </h2>
+
+    </div>
+
+</div>
 
                         <div className="text-center">
 
