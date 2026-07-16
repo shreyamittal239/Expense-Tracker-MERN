@@ -11,6 +11,7 @@ const budgetRoutes = require("./routes/budgetRoutes");
 const groupRoutes = require("./routes/groupRoutes");
 const groupExpenseRoutes = require("./routes/groupExpenseRoutes");
 const settlementRoutes = require("./routes/settlementRoutes");
+const aiRoutes  = require ("./routes/aiRoutes")
 
 const app = express();
 
@@ -38,6 +39,6 @@ app.use("/api/budget", budgetRoutes);
 app.use("/api/groups", groupRoutes);
 app.use("/api/group-expenses", groupExpenseRoutes);
 app.use("/api/settlements", settlementRoutes);
-
+app.use("/api/ai", aiRoutes);
 
 module.exports = app;

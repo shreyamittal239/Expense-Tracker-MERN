@@ -131,8 +131,6 @@ const getGroupExpenses = async (req, res) => {
 
     }
 
-
-
 }
 
 const deleteGroupExpense = async (req, res) => {
@@ -176,7 +174,7 @@ const deleteGroupExpense = async (req, res) => {
 const getGroupBalances = async (req, res) => {
     try {
         const settlementRecords = await Settlement.find({
-    group: req.params.groupId,
+        group: req.params.groupId,
 });
 
 
@@ -227,7 +225,6 @@ const getGroupBalances = async (req, res) => {
         for (const expense of expenses) {
 
            
-
             const share =
                 expense.amount / expense.participants.length;
 
@@ -250,11 +247,11 @@ const getGroupBalances = async (req, res) => {
 
         }
       
-        for (const settlement of settlementRecords) {
+     for (const settlement of settlementRecords) {
 
-    const fromId = settlement.from.toString();
-
-    const toId = settlement.to.toString();
+     const fromId = settlement.from.toString();
+ 
+      const toId = settlement.to.toString();
 
     console.log(
         `${fromId} paid ${toId} ₹${settlement.amount}`
@@ -279,7 +276,7 @@ const getGroupBalances = async (req, res) => {
 
         for (const userId in balances) {
 
-    balances[userId] = Number(
+        balances[userId] = Number(
         balances[userId].toFixed(2)
     );
 
