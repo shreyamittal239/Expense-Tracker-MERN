@@ -1,154 +1,269 @@
-# 💰 Expense Tracker
+# Expense Tracker
 
-A full-stack MERN (MongoDB, Express.js, React.js, Node.js) application designed to help users efficiently manage their personal finances. The platform allows users to securely track expenses, analyze spending patterns, and manage split expenses through an intuitive dashboard.
-
----
-
-## 🚀 Live Demo
-
-### Frontend
-👉 https://expense-tracker-mern-zeta-eight.vercel.app
-
-### Backend API
-👉 https://expense-tracker-mern-oazt.onrender.com
+A full-stack MERN Expense Tracker that enables users to manage personal and shared expenses efficiently. The application supports secure authentication, group expense management, automatic balance calculation, settlements, and an interactive dashboard for tracking financial activities.
 
 ---
 
-## ✨ Features
+## Overview
 
-### 🔐 Authentication
+Expense Tracker is designed to simplify expense management for both individuals and groups. Users can create groups, add members, record shared expenses, calculate balances automatically, and settle outstanding dues with an optimized settlement algorithm.
+
+The project follows a scalable MVC architecture and implements secure authentication, RESTful APIs, and responsive user interfaces.
+
+---
+
+## Features
+
+### Authentication
+
 - User Registration
 - Secure Login & Logout
 - JWT Authentication
 - Protected Routes
-- Cookie-Based Session Management
-
-### 💸 Expense Management
-- Add New Expenses
-- Edit Existing Expenses
-- Delete Expenses
-- Categorize Transactions
-- View Expense History
-
-### 📊 Dashboard Analytics
-- Total Expense Overview
-- Category-wise Spending Analysis
-- Recent Transactions
-- Personalized User Dashboard
-
-### 👥 Split Expenses
-- Create Shared Expenses
-- Manage Group Spending
-- Track Expense Distribution
-
-### 📱 Responsive UI
-- Modern User Interface
-- Mobile-Friendly Design
-- Smooth User Experience
+- Password Encryption using bcrypt
 
 ---
 
-## 🛠️ Tech Stack
+### Personal Expense Management
+
+- Add Expenses
+- Update Expenses
+- Delete Expenses
+- Expense Categories
+- Dashboard Statistics
+- Monthly Expense Overview
+
+---
+
+### Group Management
+
+- Create Groups
+- View Group Details
+- Add Members to Existing Groups
+- Member Management
+- Group Expense Dashboard
+
+---
+
+### Shared Expenses
+
+- Add Shared Expenses
+- Edit Shared Expenses
+- Delete Shared Expenses
+- Expense Description
+- Participant Selection
+- Payer Management
+
+---
+
+### Balance Calculation
+
+- Automatic Equal Expense Splitting
+- Individual Net Balance Calculation
+- Creditor & Debtor Identification
+- Settlement Suggestions
+- Optimized Settlement Generation
+
+---
+
+### Settlement System
+
+- Record Settlements
+- Settlement History
+- Automatic Balance Updates
+- Outstanding Balance Tracking
+
+---
+
+### Dashboard
+
+- Total Expenses
+- Category-wise Summary
+- Recent Transactions
+- Group Statistics
+- Pending Settlements
+
+---
+
+### Security
+
+- JWT Authentication
+- Password Hashing
+- Authorization Middleware
+- Protected REST APIs
+- User Ownership Validation
+
+---
+
+## Tech Stack
 
 ### Frontend
-- React.js
-- React Router DOM
+
+- React
+- React Router
 - Axios
 - Tailwind CSS
 - React Icons
 
 ### Backend
+
 - Node.js
 - Express.js
-- JWT Authentication
-- Cookie Parser
-- bcrypt.js
-
-### Database
-- MongoDB Atlas
+- MongoDB
 - Mongoose
 
+### Authentication
+
+- JSON Web Token (JWT)
+- bcrypt
+
+### Database
+
+- MongoDB Atlas
+
 ### Deployment
+
 - Frontend: Vercel
 - Backend: Render
-- Database: MongoDB Atlas
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
-```bash
-Expense-Tracker/
+```
+Expense-Tracker
 │
-├── frontend/
-│   ├── src/
-│   ├── public/
-│   ├── package.json
-│   └── vite.config.js
+├── backend
+│   ├── controllers
+│   ├── middleware
+│   ├── models
+│   ├── routes
+│   ├── config
+│   └── server.js
 │
-├── backend/
-│   ├── src/
-│   │   ├── config/
-│   │   ├── controller/
-│   │   ├── middleware/
-│   │   ├── models/
-│   │   ├── routes/
-│   │   └── utils/
-│   │
-│   ├── server.js
-│   └── package.json
+├── frontend
+│   ├── components
+│   ├── pages
+│   ├── context
+│   ├── services
+│   └── App.jsx
 │
 └── README.md
 ```
 
 ---
 
-## ⚙️ Installation
+## Database Models
+
+- User
+- Expense
+- Group
+- GroupExpense
+- Settlement
+
+---
+
+## Core Algorithms
+
+### Expense Splitting
+
+- Equal share calculation
+- Participant-wise contribution
+- Net balance generation
+
+### Settlement Algorithm
+
+The application minimizes the number of transactions required to settle all outstanding balances by:
+
+- Calculating net balances
+- Identifying creditors and debtors
+- Matching users using a greedy settlement approach
+- Generating optimized settlement suggestions
+
+---
+
+## API Modules
+
+### Authentication
+
+- Register User
+- Login User
+- Logout User
+
+### Expenses
+
+- Add Expense
+- Update Expense
+- Delete Expense
+- Get Expenses
+
+### Dashboard
+
+- Dashboard Statistics
+- Category Aggregation
+
+### Groups
+
+- Create Group
+- Get User Groups
+- Add Member
+- Group Details
+
+### Group Expenses
+
+- Add Expense
+- Update Expense
+- Delete Expense
+- Get Expenses
+- Calculate Balances
+
+### Settlements
+
+- Record Settlement
+- Settlement History
+
+---
+
+## Installation
 
 ### Clone Repository
 
 ```bash
-git clone https://github.com/shreyamittal239/Expense-Tracker-MERN.git
-cd Expense-Tracker-MERN
+git clone https://github.com/your-username/Expense-Tracker.git
 ```
 
-### Backend Setup
+### Install Backend
 
 ```bash
 cd backend
 npm install
 ```
 
-Create a `.env` file:
-
-```env
-PORT=5000
-MONGO_URI=your_mongodb_connection_string
-JWT_SECRET=your_jwt_secret
-```
-
-Run Backend:
-
-```bash
-npm run dev
-```
-
----
-
-### Frontend Setup
+### Install Frontend
 
 ```bash
 cd frontend
 npm install
 ```
 
-Create a `.env` file:
+### Environment Variables
 
-```env
-VITE_API_URL=http://localhost:5000
+Create a `.env` file inside the backend directory.
+
+```
+PORT=
+MONGODB_URI=
+JWT_SECRET=
+CLIENT_URL=
 ```
 
-Run Frontend:
+### Run Backend
+
+```bash
+npm run dev
+```
+
+### Run Frontend
 
 ```bash
 npm run dev
@@ -156,118 +271,29 @@ npm run dev
 
 ---
 
-## 🔑 Environment Variables
+## Future Enhancements
 
-### Backend
-
-```env
-PORT=
-MONGO_URI=
-JWT_SECRET=
-```
-
-### Frontend
-
-```env
-VITE_API_URL=
-```
-
----
-
-## 📡 API Endpoints
-
-### Authentication
-
-| Method | Endpoint | Description |
-|----------|----------|-------------|
-| POST | `/api/auth/register` | Register User |
-| POST | `/api/auth/login` | Login User |
-| POST | `/api/auth/logout` | Logout User |
-| GET | `/api/auth/me` | Get Current User |
-
-### Expenses
-
-| Method | Endpoint | Description |
-|----------|----------|-------------|
-| GET | `/api/expenses` | Fetch All Expenses |
-| POST | `/api/expenses` | Create Expense |
-| PUT | `/api/expenses/:id` | Update Expense |
-| DELETE | `/api/expenses/:id` | Delete Expense |
-
-### Dashboard
-
-| Method | Endpoint | Description |
-|----------|----------|-------------|
-| GET | `/api/dashboard` | Dashboard Statistics |
-
-### Split Expenses
-
-| Method | Endpoint | Description |
-|----------|----------|-------------|
-| GET | `/api/split-expenses` | Fetch Split Expenses |
-| POST | `/api/split-expenses` | Create Split Expense |
-
----
-
-## 🔒 Security Features
-
-- Password Hashing using bcrypt
-- JWT Authentication
-- HTTP-Only Cookies
-- Protected Routes
-- CORS Protection
-- Environment Variable Security
-
----
-
-## 📸 Screenshots
-
-### Login Page
-<img width="100%" alt="Login Page" src="screenshots/login.png">
-
-### Dashboard
-<img width="100%" alt="Dashboard" src="screenshots/dashboard.png">
-
-### Expenses
-<img width="100%" alt="Expenses" src="screenshots/expenses.png">
-
-> Replace the image paths with your actual screenshots.
-
----
-
-## 🌟 Future Improvements
-
-- Budget Planning
-- Expense Export (PDF/Excel)
+- Real-time Notifications using Socket.io
+- Live Group Activity
+- Group Chat
+- Expense Search & Filtering
+- File Attachments for Receipts
+- Payment Gateway Integration
 - Email Notifications
-- Dark Mode
 - Multi-Currency Support
-- AI-Based Expense Insights
-- Expense Forecasting
+- Dark Mode
+- Mobile Responsive Enhancements
 
 ---
 
-## 👩‍💻 Author
+## Author
 
 **Shreya Mittal**
 
-- GitHub: https://github.com/shreyamittal239
-- LinkedIn: www.linkedin.com/in/shreya-mittal-1a5ab4268
+Full Stack MERN Developer
+
+GitHub: https://github.com/shreyamittal239
+
+
 
 ---
-
-## ⭐ Contributing
-
-Contributions, issues, and feature requests are welcome.
-
-Feel free to fork this repository and submit a pull request.
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License.
-
----
-
-### If you found this project helpful, don't forget to ⭐ the repository!
