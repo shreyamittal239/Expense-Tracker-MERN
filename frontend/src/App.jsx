@@ -16,6 +16,7 @@ import ResetPasswordPage from "./pages/ResetPasswordPage";
 import Profile from "./pages/Profile";
 import Groups from "./pages/Groups";
 import GroupDetails from "./pages/GroupDetails";
+import AIAssistant from "./pages/AIAssistant";
 
 
 function App() {
@@ -68,6 +69,10 @@ function App() {
  path="/forgot-password"
  element={<ForgotPasswordPage/>}
  />
+ <Route
+    path="/ai"
+    element={<AIAssistant />}
+/>
       
 
       {/* 404 */}
