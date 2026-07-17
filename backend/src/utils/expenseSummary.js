@@ -33,7 +33,7 @@ const buildExpenseSummary = (expenses) => {
         totalExpenses,
         categoryBreakdown,
         highestExpense,
-        averageExpense,
         recentExpenses
     };
 };
+module.exports = {buildExpenseSummary}

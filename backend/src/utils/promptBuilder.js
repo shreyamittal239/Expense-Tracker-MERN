@@ -39,6 +39,18 @@ Rules:
 - Be concise.
 - Be professional.
 - Give actionable suggestions.
+
+Format the response in proper Markdown.
+
+Requirements:
+
+- Use ## headings
+- Use bullet points
+- Highlight important numbers in bold
+- Keep the response concise (200-250 words)
+- Focus on actionable insights
+- Do not write large paragraphs
+- End with a short financial tip
         `;
 
 }

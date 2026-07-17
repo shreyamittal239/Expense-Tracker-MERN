@@ -1,3 +1,6 @@
+import ReactMarkdown from "react-markdown";
+
+
 const ChatMessage = ({ sender, message }) => {
 
     const isUser = sender === "user";
@@ -18,13 +21,16 @@ const ChatMessage = ({ sender, message }) => {
                 }`}
             >
 
-                <p className="text-sm whitespace-pre-wrap">
+           
 
-                    {message}
+    <ReactMarkdown>
 
-                </p>
+        {message}
 
-            </div>
+    </ReactMarkdown>
+
+
+       </div>
 
         </div>
 

@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import SuggestedQuestions from "../components/SuggestedQuestions";
 import DashboardLayout from '../layouts/DashBoardLayout'
 import ChatWindow from "../components/ChatWindow";
 import ChatInput from "../components/ChatInput";
@@ -40,7 +40,7 @@ const AIAssistant = () => {
                 ...prev,
                 {
                     sender: "ai",
-                    message: response.reply,
+                    message: response.response,
                 },
             ]);
 
@@ -86,7 +86,12 @@ const AIAssistant = () => {
 
                     </p>
 
-                    <ChatWindow messages={messages} />
+                    <ChatWindow messages={messages} loading={loading} />
+
+                    <SuggestedQuestions
+    onSelect={handleSendMessage}
+/>
+
 
                     <ChatInput
                         onSend={handleSendMessage}

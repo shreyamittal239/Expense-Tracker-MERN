@@ -13,6 +13,8 @@ import {
     FaPlus
 } from "react-icons/fa";
 import DashboardCard from "../components/DashboardCard";
+import AIInsightsCard from "../components/AIInsightsCard";
+import FloatingAIButton from "../components/FloatingAIButton";
 
 const Dashboard = () => {
 
@@ -117,6 +119,14 @@ const Dashboard = () => {
                         <FaPlus />
                         Add Expense
                     </button>
+
+                     <div className="max-w-6xl mx-auto p-8">
+
+        <AIInsightsCard />
+
+        {/* Existing Dashboard Cards */}
+
+    </div>
 
                 </div>
 
@@ -349,64 +359,130 @@ const Dashboard = () => {
 
                 )} 
 
-                {/* Recent Expenses */}
+    {/* Recent Expenses */}
 
-                <h2 className="text-2xl font-bold mt-10 mb-5">
-                    Recent Expenses
-                </h2>
+<div className="mt-10">
 
-                <div className="bg-white shadow-lg rounded-2xl p-5">
+    <div className="flex justify-between items-center mb-6">
 
-                    {dashboardData?.recentExpenses?.length > 0 ? (
+        <div>
 
-                        dashboardData.recentExpenses.map((expense) => (
+            <h2 className="text-3xl font-bold text-gray-800">
+                Recent Expenses
+            </h2>
 
-                            <div
-                                key={expense._id}
-                                className="flex justify-between items-center border-b last:border-none py-4"
-                            >
+            <p className="text-gray-500 mt-1">
+                Your latest recorded transactions
+            </p>
 
-                                <div>
+        </div>
 
-                                    <h3 className="font-semibold text-lg">
-                                        {expense.title}
-                                    </h3>
+    </div>
 
-                                    <p className="text-gray-500 text-sm">
-                                        {expense.category}
-                                    </p>
+    {dashboardData?.recentExpenses?.length > 0 ? (
 
-                                    <p className="text-gray-400 text-xs">
-                                        {new Date(expense.date).toLocaleDateString()}
-                                    </p>
+        <div className="space-y-5">
 
-                                </div>
+            {dashboardData.recentExpenses.map((expense) => (
 
-                                <div>
+                <div
+                    key={expense._id}
+                    className="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 p-6 border border-gray-100 flex justify-between items-center"
+                >
 
-                                    <p className="text-red-500 font-bold text-lg">
-                                        ₹{expense.amount}
-                                    </p>
+                    {/* Left Side */}
 
-                                </div>
+                    <div className="flex items-center gap-5">
 
-                            </div>
+                        <div className="w-14 h-14 rounded-full bg-indigo-100 flex items-center justify-center text-2xl">
 
-                        ))
-
-                    ) : (
-
-                        <div className="text-center py-10 text-gray-500">
-
-                            No recent expenses found.
+                            💸
 
                         </div>
 
-                    )}
+                        <div>
+
+                            <h3 className="text-lg font-bold text-gray-800">
+
+                                {expense.title}
+
+                            </h3>
+
+                            <div className="flex items-center gap-3 mt-2">
+
+                                <span className="px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-sm font-medium">
+
+                                    {expense.category}
+
+                                </span>
+
+                                <span className="text-gray-400 text-sm">
+
+                                    📅{" "}
+
+                                    {new Date(expense.date).toLocaleDateString()}
+
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    {/* Right Side */}
+
+                    <div className="text-right">
+
+                        <p className="text-2xl font-bold text-red-500">
+
+                            ₹{expense.amount}
+
+                        </p>
+
+                        <p className="text-sm text-gray-500">
+
+                            Expense
+
+                        </p>
+
+                    </div>
 
                 </div>
 
+            ))}
+
+        </div>
+
+    ) : (
+
+        <div className="bg-white rounded-2xl shadow-lg p-12 text-center">
+
+            <div className="text-6xl mb-4">
+
+                📭
+
             </div>
+
+            <h3 className="text-xl font-bold text-gray-700">
+
+                No Recent Expenses
+
+            </h3>
+
+            <p className="text-gray-500 mt-2">
+
+                Start adding expenses to view your latest transactions here.
+
+            </p>
+
+        </div>
+
+    )}
+
+</div>
+</div>
+             <FloatingAIButton />
 
         </DashBoardLayout>
 
