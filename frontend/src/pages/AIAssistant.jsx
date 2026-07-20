@@ -89,7 +89,7 @@ const AIAssistant = () => {
                     <ChatWindow messages={messages} loading={loading} />
 
                     <SuggestedQuestions
-    onSelect={handleSendMessage}
+                   onSelect={handleSendMessage}
 />
 
 

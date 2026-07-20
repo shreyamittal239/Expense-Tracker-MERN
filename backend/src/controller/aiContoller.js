@@ -13,7 +13,7 @@ const { analyzeExpenses, askFinancialAssistant } = require("../services/financeA
 
          const response = await askFinancialAssistant( req.user.id,message);
 
-        return res.status(200).json({
+         return res.status(200).json({
             success: true,
             response
         });
