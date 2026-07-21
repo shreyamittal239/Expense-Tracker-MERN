@@ -61,7 +61,7 @@ const Groups = () => {
 
     return (
 
-        <DashBoardLayout>
+        <DashboardLayout>
          
           <div className="flex flex-col md:flex-row justify-between items-center mb-10">
 
@@ -269,7 +269,7 @@ View Group →
 
             
 
-        </DashBoardLayout>
+        </DashboardLayout>
 
     );
 

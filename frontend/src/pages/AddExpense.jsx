@@ -55,7 +55,7 @@ const AddExpense = () => {
     };
 
     return (
-       <DashBoardLayout>
+       <DashboardLayout>
 
 <div className="max-w-2xl mx-auto">
 
@@ -222,7 +222,7 @@ const AddExpense = () => {
 
 </div>
 
-</DashBoardLayout>
+</DashboardLayout>
         
 
     );
