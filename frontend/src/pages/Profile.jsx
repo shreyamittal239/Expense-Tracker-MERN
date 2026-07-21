@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
-import DashBoardLayout from "../layouts/DashBoardLayout";
+import DashboardLayout from "../layouts/DashboardLayout";
 
 const Profile = () => {
     const [formData, setFormData] = useState({

@@ -1,5 +1,5 @@
 import React, { useEffect,useRef, useState } from 'react'
-import DashboardLayout from '../layouts/DashBoardLayout'
+import DashboardLayout from '../layouts/DashboardLayout'
 import { FaTrash , FaEdit } from 'react-icons/fa';
 import api from '../services/api';
 import { useNavigate } from "react-router-dom";

@@ -6,7 +6,7 @@ import {
     FaPlus
 } from "react-icons/fa";
 
-import DashBoardLayout from "../layouts/DashBoardLayout";
+import DashboardLayout from "../layouts/DashboardLayout";
 import api from "../services/api";
 
 

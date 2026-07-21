@@ -1,6 +1,6 @@
 import { useState } from "react";
 import SuggestedQuestions from "../components/SuggestedQuestions";
-import DashboardLayout from '../layouts/DashBoardLayout'
+import DashboardLayout from '../layouts/DashboardLayout'
 import ChatWindow from "../components/ChatWindow";
 import ChatInput from "../components/ChatInput";
 

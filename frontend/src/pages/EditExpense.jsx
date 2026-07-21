@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import DashBoardLayout from "../layouts/DashBoardLayout";
+import DashboardLayout from "../layouts/DashboardLayout";
 import api from "../services/api";
 
 const EditExpense = () => {
