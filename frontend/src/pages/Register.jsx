@@ -1,11 +1,24 @@
 import { useState } from "react";
+import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+
 import api from "../services/api";
-import { FaWallet, FaUser, FaEnvelope, FaLock } from "react-icons/fa";
+
+import AuthLayout from "../layouts/AuthLayout";
+import AuthBranding from "../components/auth/AuthBranding";
+import AuthCard from "../components/auth/AuthCard";
+import AuthHeader from "../components/auth/AuthHeader";
+import AuthInput from "../components/auth/AuthInput";
+import AuthButton from "../components/auth/AuthButton";
+import AuthFooter from "../components/auth/AuthFooter";
+// import AuthDivider from "../components/auth/AuthDivider";
+// import SocialLoginButton from "../components/auth/SocialLoginButton";
 
 const Register = () => {
 
     const navigate = useNavigate();
+
+    const [loading, setLoading] = useState(false);
 
     const [formData, setFormData] = useState({
         name: "",
@@ -13,145 +26,117 @@ const Register = () => {
         password: "",
     });
 
+    const handleChange = (e) => {
+
+        setFormData((prev) => ({
+            ...prev,
+            [e.target.name]: e.target.value,
+        }));
+
+    };
+
     const handleSubmit = async (e) => {
 
-    e.preventDefault();
+        e.preventDefault();
 
-    try {
+        try {
 
-        await api.post("/auth/register", formData);
+            setLoading(true);
 
-        navigate("/login");
+            await api.post("/auth/register", formData);
 
-    } catch (error) {
+            navigate("/login");
 
-        console.log(error.response?.data);
+        } catch (error) {
 
-    }
+            console.log(error.response?.data);
 
-};
+        } finally {
+
+            setLoading(false);
+
+        }
+
+    };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-100 via-white to-green-100 flex items-center justify-center px-4">
 
-        <div className="bg-white rounded-3xl shadow-2xl w-full max-w-md p-10">
+        <AuthLayout leftContent={<AuthBranding />}>
 
-            {/* Logo */}
-            <div className="flex justify-center mb-4">
-                <div className="bg-green-500 p-4 rounded-full">
-                    <FaWallet className="text-white text-3xl" />
-                </div>
-            </div>
+            <AuthCard>
 
-            <h1 className="text-3xl font-bold text-center">
-                Create Account
-            </h1>
+                <AuthHeader
+                    title="Create Your Account 🚀"
+                    subtitle="Start your financial journey with AI-powered expense tracking."
+                />
 
-            <p className="text-center text-gray-500 mt-2 mb-8">
-                Join Expense Tracker and manage your finances effortlessly.
-            </p>
+                <form
+                    onSubmit={handleSubmit}
+                    className="space-y-6"
+                >
 
-            <form
-                onSubmit={handleSubmit}
-                className="space-y-5"
-            >
-
-                {/* Name */}
-
-                <div className="relative">
-
-                    <FaUser className="absolute left-4 top-4 text-gray-400" />
-
-                    <input
+                    <AuthInput
+                        label="Full Name"
+                        name="name"
                         type="text"
-                        placeholder="Full Name"
+                        placeholder="John Doe"
                         value={formData.name}
-                        onChange={(e) =>
-                            setFormData({
-                                ...formData,
-                                name: e.target.value,
-                            })
-                        }
-                        className="w-full border rounded-xl pl-12 pr-4 py-3 focus:outline-none focus:ring-4 focus:ring-green-200"
+                        onChange={handleChange}
+                        icon={<FaUser />}
+                        required
                     />
 
-                </div>
-
-                {/* Email */}
-
-                <div className="relative">
-
-                    <FaEnvelope className="absolute left-4 top-4 text-gray-400" />
-
-                    <input
+                    <AuthInput
+                        label="Email Address"
+                        name="email"
                         type="email"
-                        placeholder="Email Address"
+                        placeholder="john@example.com"
                         value={formData.email}
-                        onChange={(e) =>
-                            setFormData({
-                                ...formData,
-                                email: e.target.value,
-                            })
-                        }
-                        className="w-full border rounded-xl pl-12 pr-4 py-3 focus:outline-none focus:ring-4 focus:ring-green-200"
+                        onChange={handleChange}
+                        icon={<FaEnvelope />}
+                        required
                     />
 
-                </div>
-
-                {/* Password */}
-
-                <div className="relative">
-
-                    <FaLock className="absolute left-4 top-4 text-gray-400" />
-
-                    <input
+                    <AuthInput
+                        label="Password"
+                        name="password"
                         type="password"
-                        placeholder="Password"
+                        placeholder="Create a strong password"
                         value={formData.password}
-                        onChange={(e) =>
-                            setFormData({
-                                ...formData,
-                                password: e.target.value,
-                            })
-                        }
-                        className="w-full border rounded-xl pl-12 pr-4 py-3 focus:outline-none focus:ring-4 focus:ring-green-200"
+                        onChange={handleChange}
+                        icon={<FaLock />}
+                        required
                     />
 
-                </div>
+                    <AuthButton
+                        type="submit"
+                        loading={loading}
+                    >
+                        Create Account
+                    </AuthButton>
 
-                {/* Register Button */}
+                </form>
 
-                <button
-                    type="submit"
-                    className="w-full bg-green-600 hover:bg-green-700 hover:scale-105 transition-all duration-300 text-white py-3 rounded-xl font-semibold"
-                >
-                    Create Account
-                </button>
+                {/*
+                Uncomment later
 
-            </form>
+                <AuthDivider text="OR CONTINUE WITH" />
 
-            <p className="text-center mt-6 text-gray-600">
+                <SocialLoginButton />
+                */}
 
-                Already have an account?
+                <AuthFooter
+                    question="Already have an account?"
+                    linkText="Sign In"
+                    linkTo="/login"
+                />
 
-                <button
-                    type="button"
-                    onClick={() => navigate("/login")}
-                    className="ml-2 text-green-600 hover:underline font-semibold"
-                >
-                    Login
-                </button>
+            </AuthCard>
 
-            </p>
+        </AuthLayout>
 
-            <p className="text-center text-sm text-gray-400 mt-8">
-                © 2026 Expense Tracker
-            </p>
-
-        </div>
-
-    </div>
     );
+
 };
 
 export default Register;

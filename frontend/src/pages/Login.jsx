@@ -1,153 +1,151 @@
-import React from 'react'
-import { useState } from 'react';
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { useContext } from 'react';
-import AuthContext from '../context/AuthProvider';
-import { FaWallet, FaEnvelope, FaLock, FaUser } from "react-icons/fa";
+import { FaEnvelope, FaLock } from "react-icons/fa";
+
+import AuthContext from "../context/AuthProvider";
+
+import AuthLayout from "../layouts/AuthLayout";
+import AuthBranding from "../components/auth/AuthBranding";
+import AuthCard from "../components/auth/AuthCard";
+import AuthHeader from "../components/auth/AuthHeader";
+import AuthInput from "../components/auth/AuthInput";
+import AuthButton from "../components/auth/AuthButton";
+import AuthDivider from "../components/auth/AuthDivider";
+import AuthFooter from "../components/auth/AuthFooter";
+import RememberMe from "../components/auth/RememberMe";
+import ForgotPassword from "../components/auth/ForgotPassword";
+// import SocialLoginButton from "../components/auth/SocialLoginButton";
 
 const Login = () => {
-    const { login } = useContext(AuthContext);
-
-     const [formData, setFormData] = useState({
-        email: "",
-        password: "",
-    });
-   
-   
-    const handleSubmit= async (e) => {
-        e.preventDefault();
-          try {
-         await login(formData);
-        navigate("/dashboard");
-
-    } catch (error) {
-        console.log(error.response?.data);
-    }
-    }
 
     const navigate = useNavigate();
 
-     
-  return (
-          <div className="min-h-screen bg-gradient-to-br from-blue-100 via-white to-green-100 flex items-center justify-center px-4">
+    const { login } = useContext(AuthContext);
 
-        <div className="bg-white rounded-3xl shadow-2xl w-full max-w-md p-10">
+    const [loading, setLoading] = useState(false);
 
-            {/* Logo */}
+    const [rememberMe, setRememberMe] = useState(false);
 
-            <div className="flex justify-center mb-4">
+    const [formData, setFormData] = useState({
+        email: "",
+        password: "",
+    });
 
-                <div className="bg-green-500 p-4 rounded-full">
+    const handleChange = (e) => {
 
-                    <FaWallet className="text-white text-3xl"/>
+        setFormData((prev) => ({
+            ...prev,
+            [e.target.name]: e.target.value,
+        }));
 
-                </div>
+    };
 
-            </div>
+    const handleSubmit = async (e) => {
 
-            <h1 className="text-3xl font-bold text-center">
-                Expense Tracker
-            </h1>
+        e.preventDefault();
 
-            <p className="text-center text-gray-500 mt-2 mb-8">
-                Track every rupee. Save more.
-            </p>
+        try {
 
-            <form
-                onSubmit={handleSubmit}
-                className="space-y-5"
-            >
+            setLoading(true);
 
-                {/* Email */}
+            await login(formData);
 
-                <div className="relative">
+            navigate("/dashboard");
 
-                    <FaEnvelope
-                        className="absolute left-4 top-4 text-gray-400"
-                    />
+        } catch (error) {
 
-                    <input
+            console.log(error.response?.data);
+
+        } finally {
+
+            setLoading(false);
+
+        }
+
+    };
+
+    return (
+
+        <AuthLayout leftContent={<AuthBranding />}>
+
+            <AuthCard>
+
+                <AuthHeader
+                    title="Welcome Back 👋"
+                    subtitle="Sign in to continue managing your finances with SpendWise AI."
+                />
+
+                <form
+                    onSubmit={handleSubmit}
+                    className="space-y-6"
+                >
+
+                    <AuthInput
+                        label="Email Address"
+                        name="email"
                         type="email"
-                        placeholder="Email"
+                        placeholder="john@example.com"
                         value={formData.email}
-                        onChange={(e)=>
-                            setFormData({
-                                ...formData,
-                                email:e.target.value
-                            })
-                        }
-                        className="w-full border rounded-xl pl-12 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500"
+                        onChange={handleChange}
+                        icon={<FaEnvelope />}
+                        required
                     />
 
-                </div>
-
-                {/* Password */}
-
-                <div className="relative">
-
-                    <FaLock
-                        className="absolute left-4 top-4 text-gray-400"
-                    />
-
-                    <input
+                    <AuthInput
+                        label="Password"
+                        name="password"
                         type="password"
-                        placeholder="Password"
+                        placeholder="Enter your password"
                         value={formData.password}
-                        onChange={(e)=>
-                            setFormData({
-                                ...formData,
-                                password:e.target.value
-                            })
-                        }
-                        className="w-full border rounded-xl pl-12 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500"
+                        onChange={handleChange}
+                        icon={<FaLock />}
+                        required
                     />
 
-                </div>
+                    <div className="flex items-center justify-between">
 
-                <div className="flex justify-end mb-4">
-        <button
-        type="button"
-        onClick={() => navigate("/forgot-password")}
-        className="text-blue-600 hover:underline text-sm"
-       >
-        Forgot Password?
-       </button>
-     </div>
+                        <RememberMe
+                            checked={rememberMe}
+                            onChange={() =>
+                                setRememberMe(!rememberMe)
+                            }
+                        />
 
-                <button
-                    type="submit"
-                    className="w-full bg-green-600 hover:bg-green-700 transition duration-300 text-white py-3 rounded-xl font-semibold"
-                >
-                    Login
-                </button>
+                        <ForgotPassword />
 
-            </form>
+                    </div>
 
-            <p className="text-center mt-6 text-gray-600">
+                    <AuthButton
+                        type="submit"
+                        loading={loading}
+                    >
+                        Sign In
+                    </AuthButton>
 
-                Don't have an account?
+                </form>
 
-                <button
-                    onClick={()=>navigate("/register")}
-                    className="ml-2 text-green-600 hover:underline font-semibold"
-                >
-                    Register
-                </button>
+                {/* Uncomment later when Google OAuth is implemented */}
 
+                {/*
 
-     <p className="text-center text-sm text-gray-400 mt-8">
+                <AuthDivider text="OR CONTINUE WITH" />
 
-     © 2026 Expense Tracker
+                <SocialLoginButton />
 
-    </p>
-            </p>
+                */}
 
-        </div>
+                <AuthFooter
+                    question="Don't have an account?"
+                    linkText="Create Account"
+                    linkTo="/register"
+                />
 
-    </div>
-     
-    
-  )
-}
+            </AuthCard>
+
+        </AuthLayout>
+
+    );
+
+};
 
 export default Login;
