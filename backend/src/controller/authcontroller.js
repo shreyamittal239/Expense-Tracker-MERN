@@ -3,6 +3,7 @@ const User = require("../models/User")
 const generateToken = require("../utils/generateToken")
 const crypto = require("crypto");
 const sendEmail = require("../services/sendEmail")
+const emailTemplate = require("../services/emailTemplates");
 
 const register = async (req, res) => {
    const {name , email, password } = req.body; 
@@ -160,23 +161,22 @@ const getCurrentUser = async (req, res) => {
 
         console.log("Token saved");
 
-        const resetUrl = `https://expense-tracker-mern-zeta-eight.vercel.app/reset-password/${resetToken}`;
+        const resetUrl = `expense-tracker-mern-zeta-eight.vercel.app/reset-password/${resetToken}`;
 
-        const message = `
-You requested a password reset.
+        const html = emailTemplate(
+    user.name,
+    resetUrl
+);
 
-${resetUrl}
-`;
+await sendEmail({
 
-        console.log("Sending Email...");
+    to: user.email,
 
-        
+    subject: "Reset Your SpendWise AI Password",
 
-        await sendEmail({
-            to: user.email,
-            subject: "Password Reset",
-            text: message,
-        });
+    html,
+
+});
 
         console.log("Email Sent");
 
