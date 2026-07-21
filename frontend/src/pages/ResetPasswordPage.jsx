@@ -17,7 +17,7 @@ import AuthHeader from "../components/auth/AuthHeader";
 import AuthButton from "../components/auth/AuthButton";
 import AuthFooter from "../components/auth/AuthFooter";
 
-const ResetPassword = () => {
+const ResetPasswordPage = () => {
 
     const navigate = useNavigate();
 
@@ -275,4 +275,4 @@ const ResetPassword = () => {
 
 };
 
-export default ResetPassword;
+export default ResetPasswordPage;

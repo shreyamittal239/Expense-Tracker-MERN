@@ -12,7 +12,7 @@ import AuthInput from "../components/auth/AuthInput";
 import AuthButton from "../components/auth/AuthButton";
 import AuthFooter from "../components/auth/AuthFooter";
 
-const ForgotPassword = () => {
+const ForgotPasswordPage = () => {
 
     const navigate = useNavigate();
 
@@ -138,4 +138,4 @@ const ForgotPassword = () => {
 
 };
 
-export default ForgotPassword;
+export default ForgotPasswordPage;
