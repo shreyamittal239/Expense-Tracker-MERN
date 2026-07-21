@@ -1,5 +1,6 @@
 const Expense = require("../models/expense");
 const mongoose = require("mongoose")
+const Group = require("../models/group");
 
 const getDashboard = async (req, res) => {
    const expenses = await Expense.find({
@@ -30,7 +31,62 @@ const getDashboard = async (req, res) => {
     }
 ]);
 
+const monthlyExpenses = await Expense.aggregate([
+    {
+        $match: {
+            user: new mongoose.Types.ObjectId(req.user.id)
+        }
+    },
+    {
+ $group: {
+            _id: {
+                year: { $year: "$date" },
+                month: { $month: "$date" },
+            },
+            amount: {
+                $sum: "$amount",
+            },
+        },
+    },
+    {
+        $sort: {
+            "_id.year": 1,
+            "_id.month": 1,
+        },
+    }
+]);
+
+const monthNames = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+];
+
+const formattedMonthlyExpenses = monthlyExpenses.map((item) => ({
+    month: monthNames[item._id.month - 1],
+    amount: item.amount,
+}));
+
 const totalTransactions = expenses.length;
+
+const categoryCount = await Expense.distinct(
+    "category",
+    { user: req.user.id }
+);
+
+const totalGroups = await Group.countDocuments({
+    members: req.user.id,
+});
+
     
 
   const recentExpenses = await Expense.find({
@@ -44,7 +100,10 @@ const totalTransactions = expenses.length;
             totalExpense,
             totalTransactions,
             recentExpenses,
-            categoryWiseExpense
+            categoryWiseExpense,
+            totalGroups,
+            monthlyExpenses: formattedMonthlyExpenses,
+            categoryCount: categoryCount.length
         });
 
 };

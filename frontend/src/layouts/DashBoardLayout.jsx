@@ -1,45 +1,46 @@
-import Navbar from "../components/Navbar";
+import Sidebar from "../components/Sidebar";
+import Header from "../components/Header";
 
 const DashboardLayout = ({ children }) => {
     return (
-        <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-indigo-50 to-purple-50">
 
-            {/* Background Decorations */}
+            {/* Background Effects */}
+            <div className="fixed inset-0 -z-10 overflow-hidden">
 
-            <div className="absolute inset-0 -z-10 overflow-hidden">
+                <div className="absolute top-10 left-10 w-[420px] h-[420px] rounded-full bg-indigo-300 blur-[180px] opacity-20"></div>
 
-                {/* Top Left */}
-                <div className="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-indigo-400 opacity-20 blur-[150px]" />
+                <div className="absolute bottom-10 right-10 w-[420px] h-[420px] rounded-full bg-purple-300 blur-[180px] opacity-20"></div>
 
-                {/* Top Right */}
-                <div className="absolute top-10 right-0 w-80 h-80 rounded-full bg-purple-400 opacity-20 blur-[150px]" />
-
-                {/* Bottom Left */}
-                <div className="absolute bottom-0 left-20 w-80 h-80 rounded-full bg-cyan-300 opacity-20 blur-[150px]" />
-
-                {/* Bottom Right */}
-                <div className="absolute bottom-10 right-10 w-96 h-96 rounded-full bg-pink-300 opacity-15 blur-[160px]" />
-
-                {/* Center Glow */}
-                <div className="absolute top-1/2 left-1/2 w-[500px] h-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white opacity-20 blur-[180px]" />
+                <div className="absolute top-1/2 left-1/2 w-[350px] h-[350px] rounded-full bg-cyan-300 blur-[180px] opacity-10"></div>
 
             </div>
 
-            {/* Navbar */}
+            <div className="flex">
 
-            <div className="sticky top-0 z-50 backdrop-blur-md bg-white/70 border-b border-white/40 shadow-sm">
+                {/* Sidebar */}
 
-                <Navbar />
+                <div className="fixed left-0 top-0 h-screen z-30">
+
+                    <Sidebar />
+
+                </div>
+
+                {/* Main Content */}
+
+                <div className="flex-1 ml-72">
+
+                    <Header />
+
+                    <main className="p-8">
+
+                        {children}
+
+                    </main>
+
+                </div>
 
             </div>
-
-            {/* Main Content */}
-
-            <main className="relative z-10 max-w-7xl mx-auto px-8 py-8">
-
-                {children}
-
-            </main>
 
         </div>
     );
