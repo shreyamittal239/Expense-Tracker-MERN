@@ -1,6 +1,9 @@
 import { useContext } from "react";
 import AuthContext from "../context/AuthProvider";
-
+import NotificationBell from "./NotificationBell";
+import NotificationDropdown from "./NotificationDropdown";
+import { useState } from "react";
+import { useNotification } from "../context/NotificationContext";
 import {
     Search,
     Bell,
@@ -8,11 +11,24 @@ import {
 } from "lucide-react";
 
 const Header = () => {
-  
+    const { markAllAsRead } = useNotification();
+    const [open, setOpen] = useState(false);
 
     const { user } = useContext(AuthContext);
 
     const hour = new Date().getHours();
+
+    const handleNotificationClick = () => {
+
+    setOpen(!open);
+
+    if (!open) {
+
+        markAllAsRead();
+
+    }
+
+};
 
     const greeting =
         hour < 12
@@ -87,31 +103,21 @@ const Header = () => {
 
                     {/* Notifications */}
 
-                    <button
-                        className="
-                        relative
-                        w-12
-                        h-12
-                        rounded-2xl
-                        bg-white
-                        border
-                        border-gray-200
-                        flex
-                        items-center
-                        justify-center
-                        hover:bg-indigo-50
-                        transition
-                        "
-                    >
+                    <div className="relative">
 
-                        <Bell
-                            size={20}
-                            className="text-gray-600"
-                        />
+    <NotificationBell
+        onClick={handleNotificationClick}
+    />
 
-                        <span className="absolute top-3 right-3 w-2 h-2 rounded-full bg-red-500"></span>
+    {
 
-                    </button>
+        open &&
+
+        <NotificationDropdown />
+
+    }
+
+</div>
 
                     {/* Profile */}
 

@@ -19,6 +19,10 @@ const createGroup = async (req, res) => {
             members: [req.user.id], // creator automatically becomes member
         });
 
+        req.io.emit("groupCreated", {
+    groupName: group.name,
+});
+
         res.status(201).json({
             success: true,
             message: "Group created successfully",
@@ -126,6 +130,9 @@ const addMember = async (req, res) => {
         group.members.push(user._id);
 
         await group.save();
+        req.io.emit("memberJoined", {
+    user: user.name,
+});
 
         res.status(200).json({
             success: true,

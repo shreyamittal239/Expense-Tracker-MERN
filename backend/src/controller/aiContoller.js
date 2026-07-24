@@ -2,11 +2,11 @@ const { analyzeExpenses, askFinancialAssistant } = require("../services/financeA
 
  const chatWithAI = async ( req , res ) => {
     try {
-        const {message } = req.body;
+        const { message } = req.body;
 
         if( !message || !message.trim()) {
             return res.status(400).json({
-                succes:false,
+                success:false,
                 message:"Message is required."
             })
         }

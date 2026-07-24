@@ -8,7 +8,7 @@ const addExpense = async (req, res) => {
             category,
             date,
             note,
-        } = req.body;
+         } = req.body;
 
         if (!title || !amount || !category) {
             return res.status(400).json({
@@ -25,12 +25,21 @@ const addExpense = async (req, res) => {
             note,
             user: req.user.id,
         });
-
+  console.log("Before emit");
+      req.io.emit("expenseAdded", {
+    title: expense.title,
+    amount: expense.amount,
+    category: expense.category,
+});
+console.log("After emit");
         res.status(201).json({
             success: true,
             message: "Expense added successfully",
             expense,
         });
+
+        
+
 };
 
 const getExpenses = async (req, res) => {
@@ -101,6 +110,11 @@ const updateExpense = async (req, res) => {
             }
         );
 
+        req.io.emit("expenseUpdated", {
+    title: expense.title,
+    amount: expense.amount,
+});
+
         res.status(200).json({
             success: true,
             message: "Expense updated successfully",
@@ -128,7 +142,10 @@ const deleteExpense = async (req, res) => {
         }
 
         await expense.deleteOne();
-
+      
+        req.io.emit("expenseDeleted", {
+    title: expense.title,
+});
         res.status(200).json({
             success: true,
             message: "Expense deleted successfully"

@@ -24,6 +24,11 @@ app.use(cors({
     ],
     credentials: true
 }));
+app.use((req, res, next) => {
+    req.io = req.app.get("io");
+    next();
+});
+
 
 
 app.get("/", (req, res) => {
@@ -32,6 +37,7 @@ app.get("/", (req, res) => {
 
 
 app.use("/api/auth", authRoutes);
+
 app.use("/api/expenses", expenseRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/splitExpenses", splitExpenseRoutes);

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import DashboardLayout from "../layouts/DashboardLayout";
-
+import {useNotification} from "../context/NotificationContext";
 import HeroSection from "../components/dashboard/HeroSection";
 import StatsCards from "../components/dashboard/StatsCards";
 import SpendingChart from "../components/dashboard/SpendingChart";
@@ -13,6 +13,8 @@ import FloatingAIButton from "../components/dashboard/FloatingAIButton";
 import { getDashboardData } from "../services/dashboardService";
 
 const Dashboard = () => {
+    const { notifications } = useNotification();
+    console.log("Notifications in Dashboard:", notifications);
 
     const [dashboardData, setDashboardData] = useState(null);
 
@@ -37,10 +39,17 @@ const Dashboard = () => {
         }
 
     };
-
+   
     useEffect(() => {
 
+
         fetchDashboard();
+  
+       
+
+       
+    
+
 
     }, []);
 
@@ -67,6 +76,8 @@ const Dashboard = () => {
     }
 
     return (
+
+     
 
         <DashboardLayout>
 

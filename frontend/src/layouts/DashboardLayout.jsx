@@ -2,6 +2,10 @@ import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 
 const DashboardLayout = ({ children }) => {
+
+   
+
+
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 via-indigo-50 to-purple-50">
 

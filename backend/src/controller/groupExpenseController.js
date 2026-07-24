@@ -72,6 +72,12 @@ const addGroupExpense = async(req , res) =>{
             description,
         });
 
+        req.io.emit("groupExpenseAdded", {
+    title: expense.title,
+    amount: expense.amount,
+    paidBy: expense.paidBy,
+});
+
         res.status(201).json({
             success: true,
             message: "Expense added successfully.",
@@ -154,6 +160,11 @@ const deleteGroupExpense = async (req, res) => {
         }
 
         await expense.deleteOne();
+
+        req.io.emit("groupExpenseDeleted", {
+    title: expense.title,
+  
+});
 
         res.status(200).json({
             success: true,

@@ -60,6 +60,11 @@ const settlePayment = async (req , res ) => {
     });
 }
 
+   req.io.emit("settlementCompleted", {
+    user: settlement.from,
+    amount: settlement.amount,
+});
+
         res.status(201).json({
             success: true,
             message: "Settlement recorded successfully.",

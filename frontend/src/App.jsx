@@ -17,9 +17,21 @@ import Profile from "./pages/Profile";
 import Groups from "./pages/Groups";
 import GroupDetails from "./pages/GroupDetails";
 import AIAssistant from "./pages/AIAssistant";
-
+import { useEffect } from "react";
+import socket from "./services/socket";
 
 function App() {
+    useEffect(() => {
+
+    socket.on("expenseAdded", (expense) => {
+        console.log("Expense Received", expense);
+    });
+
+    return () => {
+        socket.off("expenseAdded");
+    };
+
+}, []);
    return (
   
  
@@ -79,6 +91,7 @@ function App() {
       <Route path="*" element={<NotFound />} />
 
     </Routes>
+
    
     
   )
